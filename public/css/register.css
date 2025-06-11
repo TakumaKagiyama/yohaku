@@ -1,0 +1,66 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+}
+
+.register-background {
+    background-image: url('/images/bg.jpg'); /* ← 好きな画像を public/images に入れて指定 */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-box {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 40px;
+    border-radius: 15px;
+    text-align: left;
+    width: 320px;
+    backdrop-filter: blur(10px);
+}
+
+.register-box h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #fff6cc;
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+
+.register-box input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 20px;
+    background-color: rgba(255,255,255,0.8);
+    font-size: 14px;
+}
+
+.register-box button {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    background-color: rgba(200, 200, 200, 0.6);
+    color: black;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.register-box button:hover {
+    background-color: rgba(100, 100, 100, 0.6);
+    color: white;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
