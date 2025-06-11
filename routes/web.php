@@ -1,31 +1,65 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController; 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
+// トップページアクセスでログイン画面へリダイレクト
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// ログインフォーム表示
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
 
+// ログイン処理
+Route::post('/login', function (Request $request) {
+    $credentials = $request->only('username', 'password'); // 'email'に変更してもOK
+
+    if (Auth::attempt($credentials)) {
+        return redirect()->intended('/welcome'); // 認証後は welcome に移動
+    }
+
+    return back()->with('error', 'usernameまたはpasswordが違います');
+});
+
+// ログアウト処理
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login');
+})->name('logout');
+
+// 認証後に表示する welcome ページ
+Route::get('/welcome', function () {
+    return view('welcome');
+})->middleware('auth')->name('welcome');
+
+// 投稿ページ（必要に応じて）
+Route::get('/post', function () {
+    return '投稿ページ';
+})->middleware('auth');
+
+// プロフィールなどの認証必須ルート
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/todaysword', function () {
+    return view('layouts.todaysword');
+})->name('todaysword');
+
+Route::post('/post', [PostController::class, 'store'])->name('post.store');
 
 require __DIR__.'/auth.php';
