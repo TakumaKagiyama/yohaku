@@ -40,13 +40,31 @@ Route::post('/logout', function () {
     return redirect('/login');
 })->name('logout');
 
-// 認証後に表示する welcome ページ
-Route::get('/welcome', function () {
-    return view('welcome');
-})->middleware('auth')->name('welcome');
+// ▼▼▼▼▼ 認証なしでアクセスできるように変更 ▼▼▼▼▼ 今後、authの追加が必要
 
-// 投稿ページ（必要に応じて）
+// welcome ページ（認証なし）
+Route::get('/welcome', function () {
+    return view('layouts.welcome');
+})->name('welcome');
+
+// todaysword ページ（認証なし）
+Route::get('/todaysword', function () {
+    return view('layouts.todaysword');
+})->name('todaysword');
+
+// todaysword_edit ページ（認証なし）
+Route::get('/todaysword/edit', function () {
+    return view('layouts.todaysword_edit');
+})->name('todaysword.edit');
+
+// ▲▲▲▲▲ 認証なしでアクセスできるように変更 ▲▲▲▲▲
+
+// 投稿処理（コントローラー経由）
+Route::post('/post', [PostController::class, 'store'])->name('post.store');
+
+// 投稿ページ（仮置き）
 Route::get('/post', function () {
+posts/yoko-page
      $post = Post::latest()->first(); // 最新の投稿1件を取得（nullになる可能性あり）
     $genres = ['きょうのこと', 'ふと思った', 'ことばあそび', 'ぼんやりと', '心の中', '存在感', 'きれい', 'うらやましい']; // ジャンル例
 
@@ -56,6 +74,7 @@ Route::get('/post', function () {
     ]);
 })->name('post');
 
+
 // プロフィールなどの認証必須ルート
     // ログインなしでアクセスOKにする
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -63,11 +82,9 @@ Route::put('/profile/update', [ProfileController::class, 'update'])->name('profi
 Route::post('/profile/image', [ProfileController::class, 'updateImage'])->name('profile.image.update');
 
 
-Route::get('/todaysword', function () {
-    return view('layouts.todaysword');
-})->name('todaysword');
-
-Route::post('/post', [PostController::class, 'store'])->name('post.store');
+Route::get('/profile/edit', function () {
+    return view('layouts.profile');
+})->name('profile.edit');
 
 require __DIR__.'/auth.php';
 
