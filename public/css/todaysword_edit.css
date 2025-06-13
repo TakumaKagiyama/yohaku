@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    background: url('/images/bg.jpg') no-repeat center center fixed;
+    background: url('/images/space_bg.jpg') no-repeat center center fixed;
     background-size: cover;
     height: 100vh;
     display: flex;
@@ -69,12 +69,16 @@ body {
 
 .form-bottom {
     display: flex;
-    gap: 20px;
     justify-content: center;
+    gap: 20px;
     margin-top: 10px;
 }
 
-.tag-select, .post-button {
+.three-buttons {
+    gap: 20px;
+}
+
+.tag-select, .post-button, .delete-button {
     padding: 14px 24px;
     font-size: 16px;
     border-radius: 12px;
@@ -91,9 +95,17 @@ body {
 .post-button {
     background-color: #f7f0e8;
     color: #000;
-    transition: background-color 0.3s ease;
 }
 
 .post-button:hover {
     background-color: #ddd;
+}
+
+.delete-button {
+    background-color: #ffcccc;
+    color: #990000;
+}
+
+.delete-button:hover {
+    background-color: #ff9999;
 }
