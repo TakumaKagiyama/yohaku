@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Edit</title>
+    <title>Profile</title>
     <link rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
     <div class="container">
         <div class="card">
-            <h1 class="title">PROFILE EDIT</h1>
+            <h1 class="title">PROFILE</h1>
             <div class="avatar-container">
                 <img src="/images/avatar_sample.png" alt="Avatar" class="avatar">
                 <button class="image-edit">IMAGE EDIT</button>
