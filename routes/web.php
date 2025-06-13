@@ -39,15 +39,32 @@ Route::post('/logout', function () {
     return redirect('/login');
 })->name('logout');
 
-// 認証後に表示する welcome ページ
-Route::get('/welcome', function () {
-    return view('welcome');
-})->middleware('auth')->name('welcome');
+// ▼▼▼▼▼ 認証なしでアクセスできるように変更 ▼▼▼▼▼ 今後、authの追加が必要
 
-// 投稿ページ（必要に応じて）
+// welcome ページ（認証なし）
+Route::get('/welcome', function () {
+    return view('layouts.welcome');
+})->name('welcome');
+
+// todaysword ページ（認証なし）
+Route::get('/todaysword', function () {
+    return view('layouts.todaysword');
+})->name('todaysword');
+
+// todaysword_edit ページ（認証なし）
+Route::get('/todaysword/edit', function () {
+    return view('layouts.todaysword_edit');
+})->name('todaysword.edit');
+
+// ▲▲▲▲▲ 認証なしでアクセスできるように変更 ▲▲▲▲▲
+
+// 投稿処理（コントローラー経由）
+Route::post('/post', [PostController::class, 'store'])->name('post.store');
+
+// 投稿ページ（仮置き）
 Route::get('/post', function () {
     return '投稿ページ';
-})->middleware('auth');
+});
 
 // プロフィールなどの認証必須ルート
 Route::middleware('auth')->group(function () {
@@ -56,10 +73,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/todaysword', function () {
-    return view('layouts.todaysword');
-})->name('todaysword');
-
-Route::post('/post', [PostController::class, 'store'])->name('post.store');
+Route::get('/profile/edit', function () {
+    return view('layouts.profile');
+})->name('profile.edit');
 
 require __DIR__.'/auth.php';
