@@ -14,11 +14,18 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function edit()
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $user = Auth::user(); // ログインなしで開くならnullの可能性あるので注意！
+        if (!$user) {
+            // ログインしてない人用の処理（例：ダミーデータとか）
+            $user = (object)[
+                'name' => 'ゲスト',
+                'email' => '',
+                'profile_image_url' => asset('images/default_icon.png')
+            ];
+        }
+        return view('mypage.profile_edit', compact('user'));
     }
 
     /**

@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PostController; 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -63,18 +64,27 @@ Route::post('/post', [PostController::class, 'store'])->name('post.store');
 
 // 投稿ページ（仮置き）
 Route::get('/post', function () {
-    return '投稿ページ';
-});
+posts/yoko-page
+     $post = Post::latest()->first(); // 最新の投稿1件を取得（nullになる可能性あり）
+    $genres = ['きょうのこと', 'ふと思った', 'ことばあそび', 'ぼんやりと', '心の中', '存在感', 'きれい', 'うらやましい']; // ジャンル例
+
+    return view('layouts.post', [
+        'post' => $post,
+        'genres' => $genres
+    ]);
+})->name('post');
+
 
 // プロフィールなどの認証必須ルート
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+    // ログインなしでアクセスOKにする
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+Route::post('/profile/image', [ProfileController::class, 'updateImage'])->name('profile.image.update');
+
 
 Route::get('/profile/edit', function () {
     return view('layouts.profile');
 })->name('profile.edit');
 
 require __DIR__.'/auth.php';
+
