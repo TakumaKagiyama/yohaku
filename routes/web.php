@@ -112,6 +112,19 @@ use App\Models\Post;
 //     return view('mypage.profile_edit');
 // })->name('profile.edit.view');
 
+// 管理者投稿ページ（ログインが必要）
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/admin/create', function () {
+//         return view('auth.admin_create');
+//     })->name('admin.create');
+
+//     Route::post('/admin/post', function (\Illuminate\Http\Request $request) {
+//         // ここに保存処理（例: テーマをDBに保存）
+//         // 例: AdminPost::create(['theme' => $request->theme]);
+//         return back()->with('message', '投稿されました');
+//     })->name('admin.post');
+// });
+
 // 🔸【19】Laravel Breezeなどの認証ルートファイル
 // require __DIR__ . '/auth.php';
 
@@ -204,6 +217,23 @@ Route::post('/mypage/profile/image', [ProfileController::class, 'updateImage'])-
 Route::get('/mypage/profile/edit-view', function () {
     return view('mypage.profile_edit');
 })->name('profile.edit.view');
+
+// 認証不要でアクセス可能な管理者投稿ページ
+Route::get('/admin/create', function () {
+    return view('auth.admin_create');
+})->name('admin.create');
+
+Route::post('/admin/post', function (\Illuminate\Http\Request $request) {
+    // バリデーション例（任意）
+    $request->validate([
+        'theme' => 'required|max:255',
+    ]);
+
+    // ここに保存処理（例: DB保存など）
+    // 例: AdminPost::create(['theme' => $request->theme]);
+
+    return back()->with('message', '投稿されました');
+})->name('admin.post');
 
 // 🔹【19】Laravel認証のルート（未使用でもOK）
 require __DIR__ . '/auth.php';
