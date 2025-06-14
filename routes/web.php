@@ -64,8 +64,8 @@ Route::post('/post', [PostController::class, 'store'])->name('post.store');
 
 // 投稿ページ（仮置き）
 Route::get('/post', function () {
-posts/yoko-page
-     $post = Post::latest()->first(); // 最新の投稿1件を取得（nullになる可能性あり）
+    //posts/yoko-page
+    $post = \App\Models\Post::latest()->first();
     $genres = ['きょうのこと', 'ふと思った', 'ことばあそび', 'ぼんやりと', '心の中', '存在感', 'きれい', 'うらやましい']; // ジャンル例
 
     return view('layouts.post', [
@@ -76,7 +76,7 @@ posts/yoko-page
 
 
 // プロフィールなどの認証必須ルート
-    // ログインなしでアクセスOKにする
+// ログインなしでアクセスOKにする
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 Route::post('/profile/image', [ProfileController::class, 'updateImage'])->name('profile.image.update');
@@ -86,5 +86,4 @@ Route::get('/profile/edit', function () {
     return view('layouts.profile');
 })->name('profile.edit');
 
-require __DIR__.'/auth.php';
-
+require __DIR__ . '/auth.php';
