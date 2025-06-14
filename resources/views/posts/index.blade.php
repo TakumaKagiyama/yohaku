@@ -10,19 +10,19 @@
 <body>
     <div class="background">
         <div class="post-container">
-            @if ($post)
+            @isset($post)
                 <div class="image-wrapper">
-                    <img src="{{ $post->image_url }}" alt="投稿画像">
+                    <img src="{{ $post->image_url ?? '/images/default.jpg' }}" alt="投稿画像">
                 </div>
                 <div class="text-wrapper">
-                    <p>{{ $post->text }}</p>
-                    <span class="tag">#{{ $post->tag }}</span>
+                    <p>{{ $post->text ?? 'テキストなし' }}</p>
+                    @if (!empty($post->tag))
+                        <span class="tag">#{{ $post->tag }}</span>
+                    @endif
                 </div>
             @else
                 <p>18文字以内のことば</p>
-            @endif
-
-
+            @endisset
         </div>
 
         <div class="controller-grid">
@@ -39,11 +39,16 @@
             <div></div>
             <div></div>
         </div>
+
         <div class="genre-menu" id="genre-menu">
             <ul>
-                @foreach ($genres as $genre)
-                    <li>{{ $genre }}</li>
-                @endforeach
+                @if (!empty($genres) && is_array($genres))
+                    @foreach ($genres as $genre)
+                        <li>{{ $genre }}</li>
+                    @endforeach
+                @else
+                    <li>ジャンル未設定</li>
+                @endif
             </ul>
         </div>
     </div>

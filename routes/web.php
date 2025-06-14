@@ -3,87 +3,207 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
-use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\Post;
 
+// auth機能あり
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
+| ページのURLルーティングを定義します。表示するbladeファイルと結びつけます。
+|--------------------------------------------------------------------------
 */
 
-// トップページアクセスでログイン画面へリダイレクト
+// // 🔸【1】トップページ（アクセス時にログイン画面へリダイレクト）
+// Route::get('/', function () {
+//     return redirect('/login');
+// });
+
+// // 🔸【2】ログインページ（Blade: auth/login.blade.php）
+// Route::get('/login', function () {
+//     return view('auth.login');
+// })->name('login');
+
+// // 🔸【3】ログイン処理（POST）
+// Route::post('/login', function (Request $request) {
+//     $credentials = $request->only('username', 'password');
+
+//     if (Auth::attempt($credentials)) {
+//         return redirect()->intended('/welcome');
+//     }
+
+//     return back()->with('error', 'ユーザー名またはパスワードが違います');
+// });
+
+// // 🔸【4】ログアウト処理（POST）
+// Route::post('/logout', function () {
+//     Auth::logout();
+//     return redirect('/login');
+// })->name('logout');
+
+// // 🔸【5】初回説明ページ（Blade: welcome.blade.php）
+// Route::get('/welcome', function () {
+//     return view('welcome');
+// })->name('welcome');
+
+// 🔸【6】新規登録ページ（Blade: auth/register.blade.php）
+// Route::get('/register', function () {
+//     return view('auth.register');
+// })->name('register');
+
+// // 🔸【7】管理者投稿編集ページ（Blade: auth/admin_create.blade.php）
+// Route::get('/admin/create', function () {
+//     return view('auth.admin_create');
+// })->name('admin.create');
+
+// // 🔸【8】投稿作成ページ（写真と言葉の投稿画面）
+// //        Blade: posts/create.blade.php
+// Route::get('/post/create', function () {
+//     return view('posts.create');
+// })->name('post.create');
+
+// // 🔸【9】投稿編集ページ（Blade: posts/edit.blade.php）
+// Route::get('/post/edit', function () {
+//     return view('posts.edit');
+// })->name('post.edit');
+
+// // 🔸【10】投稿一覧（1件拡大表示）
+// //         Blade: posts/index.blade.php
+// Route::get('/post', function () {
+//     return view('posts.index');
+// })->name('post.index');
+
+// 🔸【11】アーカイブ（非公開投稿一覧）
+//         Blade: posts/archive.blade.php
+// Route::get('/archive', function () {
+//     return view('posts.archive');
+// })->name('post.archive');
+
+// // 🔸【12】投稿データを保存（PostController使用）
+// Route::post('/post', [PostController::class, 'store'])->name('post.store');
+
+// // 🔸【13】マイページ（投稿/保存/履歴）
+// //         Blade: mypage/my_journal.blade.php
+// Route::get('/mypage/journal', function () {
+//     return view('mypage.my_journal');
+// })->name('mypage.journal');
+
+// // 🔸【14】表示モード切替ページ（自己投稿・保存・両方）
+// //         Blade: mypage/my_mode.blade.php
+// Route::get('/mypage/mode', function () {
+//     return view('mypage.my_mode');
+// })->name('mypage.mode');
+
+// 🔸【15】プロフィール編集ページ（Controller経由）
+//         Blade: mypage/profile_edit.blade.php
+// Route::get('/mypage/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+
+// // 🔸【16】プロフィール更新処理（PUT）
+// Route::put('/mypage/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+// // 🔸【17】プロフィール画像更新処理（POST）
+// Route::post('/mypage/profile/image', [ProfileController::class, 'updateImage'])->name('profile.image.update');
+
+// 🔸【18】プロフィール編集ページ（Blade直接表示版 ※Controller不要）
+//         Blade: mypage/profile_edit.blade.php
+// Route::get('/mypage/profile/edit-view', function () {
+//     return view('mypage.profile_edit');
+// })->name('profile.edit.view');
+
+// 🔸【19】Laravel Breezeなどの認証ルートファイル
+// require __DIR__ . '/auth.php';
+
+// auth機能なし
+// 🔹【1】トップページ → ログイン画面にリダイレクト
 Route::get('/', function () {
     return redirect('/login');
 });
 
-// ログインフォーム表示
+// 🔹【2】ログイン画面（auth/login.blade.php）
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
-// ログイン処理
+// 🔹【3】ログイン処理
 Route::post('/login', function (Request $request) {
-    $credentials = $request->only('username', 'password'); // 'email'に変更してもOK
+    $credentials = $request->only('username', 'password');
 
     if (Auth::attempt($credentials)) {
-        return redirect()->intended('/welcome'); // 認証後は welcome に移動
+        return redirect()->intended('/welcome');
     }
 
-    return back()->with('error', 'usernameまたはpasswordが違います');
+    return back()->with('error', 'ユーザー名またはパスワードが違います');
 });
 
-// ログアウト処理
+// 🔹【4】ログアウト処理
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/login');
 })->name('logout');
 
-// ▼▼▼▼▼ 認証なしでアクセスできるように変更 ▼▼▼▼▼ 今後、authの追加が必要
-
-// welcome ページ（認証なし）
+// 🔹【5】初回説明ページ（welcome.blade.php）
 Route::get('/welcome', function () {
-    return view('layouts.welcome');
+    return view('welcome');
 })->name('welcome');
 
-// todaysword ページ（認証なし）
-Route::get('/todaysword', function () {
-    return view('layouts.todaysword');
-})->name('todaysword');
+// 🔹【6】新規登録ページ（auth/register.blade.php）
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
 
-// todaysword_edit ページ（認証なし）
-Route::get('/todaysword/edit', function () {
-    return view('layouts.todaysword_edit');
-})->name('todaysword.edit');
+// 🔹【7】管理者用編集画面（auth/admin_create.blade.php）
+Route::get('/admin/create', function () {
+    return view('auth.admin_create');
+})->name('admin.create');
 
-// ▲▲▲▲▲ 認証なしでアクセスできるように変更 ▲▲▲▲▲
+// 🔹【8】投稿作成画面（posts/create.blade.php）
+Route::get('/post/create', function () {
+    return view('posts.create');
+})->name('post.create');
 
-// 投稿処理（コントローラー経由）
+// 🔹【9】投稿編集画面（posts/edit.blade.php）
+Route::get('/post/edit', function () {
+    return view('posts.edit');
+})->name('post.edit');
+
+// 🔹【10】投稿詳細一覧（posts/index.blade.php）
+Route::get('/post/index', function () {
+    return view('posts.index');
+})->name('post.index');
+
+// 🔹【11】アーカイブページ（posts/archive.blade.php）
+Route::get('/archive', function () {
+    return view('posts.archive');
+})->name('post.archive');
+
+// 🔹【12】投稿データ保存（PostController）
 Route::post('/post', [PostController::class, 'store'])->name('post.store');
 
-// 投稿ページ（仮置き）
-Route::get('/post', function () {
-    //posts/yoko-page
-    $post = \App\Models\Post::latest()->first();
-    $genres = ['きょうのこと', 'ふと思った', 'ことばあそび', 'ぼんやりと', '心の中', '存在感', 'きれい', 'うらやましい']; // ジャンル例
+// 🔹【13】マイページ（投稿/保存/履歴）mypage/my_journal.blade.php
+Route::get('/mypage/journal', function () {
+    return view('mypage.my_journal');
+})->name('mypage.journal');
 
-    return view('layouts.post', [
-        'post' => $post,
-        'genres' => $genres
-    ]);
-})->name('post');
+// 🔹【14】モード切替ページ（mypage/my_mode.blade.php）
+Route::get('/mypage/mode', function () {
+    return view('mypage.my_mode');
+})->name('mypage.mode');
 
+// 🔹【15】プロフィール編集ページ（mypage/profile_edit.blade.php）
+Route::get('/mypage/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 
-// プロフィールなどの認証必須ルート
-// ログインなしでアクセスOKにする
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-Route::post('/profile/image', [ProfileController::class, 'updateImage'])->name('profile.image.update');
+// 🔹【16】プロフィール情報更新（PUT）
+Route::put('/mypage/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
+// 🔹【17】プロフィール画像アップロード処理（POST）
+Route::post('/mypage/profile/image', [ProfileController::class, 'updateImage'])->name('profile.image.update');
 
-Route::get('/profile/edit', function () {
-    return view('layouts.profile');
-})->name('profile.edit');
+// 🔹【18】直接View表示のプロフィール画面（controller使わずBlade直表示）
+Route::get('/mypage/profile/edit-view', function () {
+    return view('mypage.profile_edit');
+})->name('profile.edit.view');
 
+// 🔹【19】Laravel認証のルート（未使用でもOK）
 require __DIR__ . '/auth.php';
