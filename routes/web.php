@@ -195,9 +195,9 @@ Route::get('/archive', function () {
 Route::post('/post', [PostController::class, 'store'])->name('post.store');
 
 // 🔹【13】マイページ（投稿/保存/履歴）mypage/my_journal.blade.php
-Route::get('/mypage/journal', function () {
+Route::get('/mypage/my_journal', function () {
     return view('mypage.my_journal');
-})->name('mypage.journal');
+})->name('mypage.my_journal');
 
 // 🔹【14】モード切替ページ（mypage/my_mode.blade.php）
 Route::get('/mypage/mode', function () {
