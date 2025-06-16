@@ -69,6 +69,11 @@ use App\Models\Post;
 //     return view('posts.edit');
 // })->name('post.edit');
 
+// 🔹投稿編集画面（edit.blade.php）へのルート
+// Route::get('/post/edit', function () {
+//     return view('posts.edit');
+// })->name('post.edit');
+
 // // 🔸【10】投稿一覧（1件拡大表示）
 // //         Blade: posts/index.blade.php
 // Route::get('/post', function () {
@@ -177,6 +182,11 @@ Route::get('/post/create', function () {
 })->name('post.create');
 
 // 🔹【9】投稿編集画面（posts/edit.blade.php）
+Route::get('/post/edit', function () {
+    return view('posts.edit');
+})->name('post.edit');
+
+// 🔹投稿編集画面（edit.blade.php）へのルート
 Route::get('/post/edit', function () {
     return view('posts.edit');
 })->name('post.edit');

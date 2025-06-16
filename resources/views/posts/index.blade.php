@@ -31,8 +31,10 @@
                 <button id="left">SAVE</button>
                 <button id="right">NEXT</button>
             </div>
-            <button id="down">EDIT</button>
-        </div>
+            <a href="{{ route('post.edit') }}">
+                <button id="down">EDIT</button>
+            </a>
+        </div>        
 
         <div class="hamburger-menu" id="menu-toggle">
             <div></div>
