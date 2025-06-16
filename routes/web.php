@@ -15,6 +15,10 @@ use App\Models\Post;
 | ページのURLルーティングを定義します。表示するbladeファイルと結びつけます。
 |--------------------------------------------------------------------------
 */
+Route::get('/mypage/journal', function () {
+    return view('mypage.my_journal');
+});
+
 
 // // 🔸【1】トップページ（アクセス時にログイン画面へリダイレクト）
 // Route::get('/', function () {
@@ -196,6 +200,11 @@ Route::get('/post/index', function () {
     return view('posts.index');
 })->name('post.index');
 
+// 🔹【HOME】トップページ（posts/index.blade.php に変更）
+Route::get('/', function () {
+    return view('posts.index'); // ← ここを変更！
+})->name('home');
+
 // 🔹【11】アーカイブページ（posts/archive.blade.php）
 Route::get('/archive', function () {
     return view('posts.archive');
@@ -215,7 +224,10 @@ Route::get('/mypage/mode', function () {
 })->name('mypage.mode');
 
 // 🔹【15】プロフィール編集ページ（mypage/profile_edit.blade.php）
-Route::get('/mypage/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+// Route::get('/mypage/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::get('/mypage/profile_edit', function () {
+    return view('mypage.profile_edit');
+})->name('mypage.profile_edit');
 
 // 🔹【16】プロフィール情報更新（PUT）
 Route::put('/mypage/profile/update', [ProfileController::class, 'update'])->name('profile.update');
