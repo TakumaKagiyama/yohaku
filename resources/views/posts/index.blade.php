@@ -35,7 +35,7 @@
             <a href="{{ route('post.edit') }}">
                 <button id="down">EDIT</button>
             </a>
-        </div>        
+        </div>
 
         <div class="hamburger-menu" id="menu-toggle">
             <div></div>
