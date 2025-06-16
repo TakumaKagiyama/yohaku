@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <title>マイジャーナル</title>
     <link rel="stylesheet" href="{{ asset('css/my_journal.css') }}">
 </head>
+
 <body>
     <div class="profile-background">
         <div class="top-buttons">
-            <a href="#">LOGIN</a>
-            <a href="#">LOGOUT</a>
+            <a href="{{ route('login') }}">LOGIN</a>
+            <a href="javascript:void(0);" onclick="showLogoutModal()">LOGOUT</a>
         </div>
 
         <div class="profile-container">
@@ -18,8 +20,9 @@
             <p class="user-comment">チャンスの神様は前頭しかない 🐣</p>
 
             <div class="action-buttons">
-                <a href="#" class="edit-button">EDIT</a>
-                <a href="#" class="home-button">HOME</a>
+                {{-- <a href="#" class="edit-button">EDIT</a> --}}
+                <a href="{{ route('mypage.profile_edit') }}" class="edit-button">EDIT</a>
+                <a href="{{ route('home') }}" class="home-button">HOME</a>
             </div>
         </div>
 
@@ -40,5 +43,30 @@
             </div>
         </div>
     </div>
+
+    <!-- ログアウト確認モーダル -->
+    <div id="logoutModal" class="logout-modal" style="display: none;">
+        <p>本当にログアウトしますか？</p>
+        <div class="modal-buttons">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="confirm">はい</button>
+            </form>
+            <button class="cancel" onclick="hideLogoutModal()">いいえ</button>
+        </div>
+    </div>
+
+    <!-- JavaScriptでモーダル制御 -->
+    <script>
+        function showLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'block';
+        }
+
+        function hideLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'none';
+        }
+    </script>
+
 </body>
+
 </html>
