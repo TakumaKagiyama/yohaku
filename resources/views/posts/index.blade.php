@@ -26,7 +26,8 @@
         </div>
 
         <div class="controller-grid">
-            <button id="up">MYPAGE</button>
+            <a href="/mypage/journal">
+                    <button id="up">MYPAGE</button></a>
             <div class="middle-row">
                 <button id="left">SAVE</button>
                 <button id="right">NEXT</button>
