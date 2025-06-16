@@ -25,4 +25,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(SeenPost::class);
     }
+
+    public function profileImage()
+    {
+        return $this->hasOne(ProfileImage::class);
+    }
 }

@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class ProfileImage extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'image_path',
+        'mime_type',
+        'file_size',
+    ];
+
+    // ユーザーとのリレーション（多対一）
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+}
