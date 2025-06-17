@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Http\Controllers\RegisterController;
+
+
 
 // auth機能あり
 /*
@@ -15,10 +18,14 @@ use App\Models\Post;
 | ページのURLルーティングを定義します。表示するbladeファイルと結びつけます。
 |--------------------------------------------------------------------------
 */
-
+// TinderページのMyPageを表示するルート
 Route::get('/mypage/journal', function () {
     return view('mypage.my_journal');
 });
+
+// 登録画面の表示と登録処理の実行
+Route::get('/register', [RegisterController::class, 'show'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
 // // 🔸【1】トップページ（アクセス時にログイン画面へリダイレクト）
 // Route::get('/', function () {
 //     return redirect('/login');
@@ -257,4 +264,4 @@ Route::post('/admin/post', function (\Illuminate\Http\Request $request) {
 })->name('admin.post');
 
 // 🔹【19】Laravel認証のルート（未使用でもOK）
-require __DIR__ . '/auth.php';
+// require __DIR__ . '/auth.php';
