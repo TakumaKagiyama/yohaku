@@ -9,7 +9,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $fillable = ['name', 'email', 'password', 'is_admin'];
+    public $timestamps = false;
+    protected $fillable = ['name', 'email', 'password', 'is_admin', 'created_at'];
 
     public function posts()
     {
