@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\LoginController;
 
 
 
@@ -26,6 +27,19 @@ Route::get('/mypage/journal', function () {
 // 登録画面の表示と登録処理の実行
 Route::get('/register', [RegisterController::class, 'show'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
+
+// ログインの処理
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.form');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/welcome', function () {
+    return view('welcome');
+})->middleware('auth'); // ログインしていないとアクセス不可
+
+
+
+
 // // 🔸【1】トップページ（アクセス時にログイン画面へリダイレクト）
 // Route::get('/', function () {
 //     return redirect('/login');
@@ -145,41 +159,9 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 // auth機能なし
 // 🔹【1】トップページ → ログイン画面にリダイレクト
-Route::get('/', function () {
-    return redirect('/login');
-});
-
-// 🔹【2】ログイン画面（auth/login.blade.php）
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-// 🔹【3】ログイン処理
-Route::post('/login', function (Request $request) {
-    $credentials = $request->only('username', 'password');
-
-    if (Auth::attempt($credentials)) {
-        return redirect()->intended('/welcome');
-    }
-
-    return back()->with('error', 'ユーザー名またはパスワードが違います');
-});
-
-// 🔹【4】ログアウト処理
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/login');
-})->name('logout');
-
-// 🔹【5】初回説明ページ（welcome.blade.php）
-Route::get('/welcome', function () {
-    return view('welcome');
-})->name('welcome');
-
-// 🔹【6】新規登録ページ（auth/register.blade.php）
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
+// Route::get('/', function () {
+//     return redirect('/login');
+// });
 
 // 🔹【7】管理者用編集画面（auth/admin_create.blade.php）
 Route::get('/admin/create', function () {
@@ -207,9 +189,9 @@ Route::get('/post/index', function () {
 })->name('post.index');
 
 // 🔹【HOME】トップページ（posts/index.blade.php に変更）
-Route::get('/', function () {
-    return view('posts.index'); // ← ここを変更！
-})->name('home');
+// Route::get('/', function () {
+//     return view('posts.index'); // ← ここを変更！
+// })->name('home');
 
 // 🔹【11】アーカイブページ（posts/archive.blade.php）
 Route::get('/archive', function () {
