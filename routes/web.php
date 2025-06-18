@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Theme;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
@@ -8,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
-
+use Illuminate\Support\Facades\Log;
 
 
 // auth機能あり
@@ -33,11 +34,40 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.for
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::get('/admin/create', function () {
+    return view('auth.admin_create');
+})->name('admin.create');
+
 Route::get('/welcome', function () {
-    return view('welcome');
-})->middleware('auth'); // ログインしていないとアクセス不可
+    $latestTheme = \App\Models\Theme::latest()->first(); // ← 追加
+    return view('welcome', ['theme' => $latestTheme]);    // ← 修正
+})->middleware('auth')->name('welcome'); // ログインしていないとアクセス不可
 
+// 管理者からテーマを保存する処理
+Route::post('/admin/post', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'theme' => 'required|max:255',
+    ]);
+    // ✅ テーマをDBに保存する処理
+    Theme::create(['text' => $request->theme]);
+    // ✅ 保存後、welcomeページにリダイレクト
+    return redirect()->route('welcome')->with('message', '投稿されました');
+})->name('admin.post');
 
+Route::post('/admin/post', function (\Illuminate\Http\Request $request) {
+    Log::info('Admin post received', $request->all());
+    $request->validate([
+        'theme' => 'required|max:255',
+    ]);
+    \App\Models\Theme::create(['text' => $request->theme]);
+    return redirect()->route('welcome')->with('message', '投稿されました');
+})->name('admin.post');
+
+// 消しても良いかも！！！！！！
+// Route::post('/admin/post', function (Request $req) {
+//     Theme::create(['text' => $req->theme]);
+//     return redirect()->route('welcome');
+// })->name('admin.post');
 
 
 // // 🔸【1】トップページ（アクセス時にログイン画面へリダイレクト）
@@ -232,18 +262,6 @@ Route::get('/mypage/profile/edit-view', function () {
 Route::get('/admin/create', function () {
     return view('auth.admin_create');
 })->name('admin.create');
-
-Route::post('/admin/post', function (\Illuminate\Http\Request $request) {
-    // バリデーション例（任意）
-    $request->validate([
-        'theme' => 'required|max:255',
-    ]);
-
-    // ここに保存処理（例: DB保存など）
-    // 例: AdminPost::create(['theme' => $request->theme]);
-
-    return back()->with('message', '投稿されました');
-})->name('admin.post');
 
 // 🔹【19】Laravel認証のルート（未使用でもOK）
 // require __DIR__ . '/auth.php';
