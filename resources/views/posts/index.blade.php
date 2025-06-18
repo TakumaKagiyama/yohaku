@@ -27,21 +27,25 @@
 
         <div class="controller-grid">
             <a href="/mypage/journal">
-                <button id="up">MYPAGE</button>
+                <button id="up" class="controller-btn">MYPAGE</button>
             </a>
+
             <div class="middle-row">
                 <form method="POST" action="{{ route('post.save', ['id' => $post->id ?? 0]) }}">
                     @csrf
-                    <button id="left">SAVE</button>
+                    <button id="left" class="controller-btn">SAVE</button>
                 </form>
+
                 <form method="GET" action="{{ route('post.index') }}">
-                    <button id="right">NEXT</button>
+                    <button id="right" class="controller-btn">NEXT</button>
                 </form>
             </div>
+
             <a href="{{ route('post.edit', ['id' => $post->id ?? 0]) }}">
-                <button id="down">EDIT</button>
+                <button id="down" class="controller-btn">EDIT</button>
             </a>
         </div>
+
 
         <div class="hamburger-menu" id="menu-toggle">
             <div></div>
@@ -57,6 +61,15 @@
             </ul>
         </div>
     </div>
+
+    <div class="genre-slider">
+        <div class="genre-track">
+            @foreach ($genres as $genre)
+                <div class="genre-item">{{ $genre }}</div>
+            @endforeach
+        </div>
+    </div>
+
 
     <script src="{{ asset('js/post.js') }}"></script>
 </body>
