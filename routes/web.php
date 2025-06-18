@@ -195,7 +195,7 @@ Route::post('/post/seen', [PostController::class, 'seen'])->name('post.seen');
 
 
 // // 🔹【HOME】トップページ（posts/index.blade.php に変更）
-=======
+
 // 🔹【HOME】トップページ（posts/index.blade.php に変更）
 
 // Route::get('/', function () {
