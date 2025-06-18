@@ -183,12 +183,21 @@ Route::get('/post/edit', function () {
     return view('posts.edit');
 })->name('post.edit');
 
-// 🔹【10】投稿詳細一覧（posts/index.blade.php）
-Route::get('/post/index', function () {
-    return view('posts.index');
-})->name('post.index');
+// 投稿閲覧画面：未読からランダム1件取得して表示
+Route::get('/post', [PostController::class, 'index'])->name('post.index');
 
+
+// 投稿の保存処理（SAVEボタン） ※コントローラー側で処理
+Route::post('/post/save', [PostController::class, 'save'])->name('post.save');
+
+// 投稿の既読登録処理（NEXTボタン）※コントローラー側で処理
+Route::post('/post/seen', [PostController::class, 'seen'])->name('post.seen');
+
+
+// // 🔹【HOME】トップページ（posts/index.blade.php に変更）
+=======
 // 🔹【HOME】トップページ（posts/index.blade.php に変更）
+
 // Route::get('/', function () {
 //     return view('posts.index'); // ← ここを変更！
 // })->name('home');
