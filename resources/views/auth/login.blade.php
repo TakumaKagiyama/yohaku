@@ -14,10 +14,15 @@
             @endif
             <form action="{{ route('login') }}" method="POST">
                 @csrf
-                <input type="username" name="username" placeholder="username" required>
+                <input type="text" name="name" placeholder="username" required>
                 <input type="password" name="password" placeholder="password" required>
                 <button type="submit">LOGIN</button>
             </form>
+            @if($errors->any())
+    <div class="error">
+        {{ $errors->first() }}
+    </div>
+@endif
         </div>
     </div>
 </body>

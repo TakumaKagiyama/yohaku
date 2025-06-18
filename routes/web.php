@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\LoginController;
+
+
 
 // auth機能あり
 /*
@@ -16,10 +20,27 @@ use App\Models\Post;
 | ページのURLルーティングを定義します。表示するbladeファイルと結びつけます。
 |--------------------------------------------------------------------------
 */
-
+// TinderページのMyPageを表示するルート
 Route::get('/mypage/journal', function () {
     return view('mypage.my_journal');
 });
+
+// 登録画面の表示と登録処理の実行
+Route::get('/register', [RegisterController::class, 'show'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+
+// ログインの処理
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.form');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/welcome', function () {
+    return view('welcome');
+})->middleware('auth'); // ログインしていないとアクセス不可
+
+
+
+
 // // 🔸【1】トップページ（アクセス時にログイン画面へリダイレクト）
 // Route::get('/', function () {
 //     return redirect('/login');
@@ -139,41 +160,9 @@ Route::get('/mypage/journal', function () {
 
 // auth機能なし
 // 🔹【1】トップページ → ログイン画面にリダイレクト
-Route::get('/', function () {
-    return redirect('/login');
-});
-
-// 🔹【2】ログイン画面（auth/login.blade.php）
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-// 🔹【3】ログイン処理
-Route::post('/login', function (Request $request) {
-    $credentials = $request->only('username', 'password');
-
-    if (Auth::attempt($credentials)) {
-        return redirect()->intended('/welcome');
-    }
-
-    return back()->with('error', 'ユーザー名またはパスワードが違います');
-});
-
-// 🔹【4】ログアウト処理
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/login');
-})->name('logout');
-
-// 🔹【5】初回説明ページ（welcome.blade.php）
-Route::get('/welcome', function () {
-    return view('welcome');
-})->name('welcome');
-
-// 🔹【6】新規登録ページ（auth/register.blade.php）
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
+// Route::get('/', function () {
+//     return redirect('/login');
+// });
 
 // 🔹【7】管理者用編集画面（auth/admin_create.blade.php）
 Route::get('/admin/create', function () {
@@ -198,6 +187,7 @@ Route::get('/post/edit', function () {
 // 投稿閲覧画面：未読からランダム1件取得して表示
 Route::get('/post', [PostController::class, 'index'])->name('post.index');
 
+
 // 投稿の保存処理（SAVEボタン） ※コントローラー側で処理
 Route::post('/post/{id}/save', [SavePostController::class, 'store'])->name('post.save');
 Route::get('/mypage/save', [SavePostController::class, 'index'])->name('post.saved');
@@ -207,6 +197,9 @@ Route::post('/post/seen', [PostController::class, 'seen'])->name('post.seen');
 
 
 // // 🔹【HOME】トップページ（posts/index.blade.php に変更）
+=======
+// 🔹【HOME】トップページ（posts/index.blade.php に変更）
+
 // Route::get('/', function () {
 //     return view('posts.index'); // ← ここを変更！
 // })->name('home');
@@ -264,4 +257,4 @@ Route::post('/admin/post', function (\Illuminate\Http\Request $request) {
 })->name('admin.post');
 
 // 🔹【19】Laravel認証のルート（未使用でもOK）
-require __DIR__ . '/auth.php';
+// require __DIR__ . '/auth.php';
