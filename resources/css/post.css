@@ -109,3 +109,31 @@ body {
 .genre-menu ul li:last-child {
     border-bottom: none;
 }
+
+
+.genre-slider {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+.genre-track {
+    display: inline-flex;
+    gap: 10px;
+}
+
+.genre-item {
+    display: inline-block;
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 14px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.genre-item:hover {
+    background-color: #ccc;
+}

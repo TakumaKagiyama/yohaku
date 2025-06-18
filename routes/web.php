@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SavePostController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -188,7 +189,8 @@ Route::get('/post', [PostController::class, 'index'])->name('post.index');
 
 
 // 投稿の保存処理（SAVEボタン） ※コントローラー側で処理
-Route::post('/post/save', [PostController::class, 'save'])->name('post.save');
+Route::post('/post/{id}/save', [SavePostController::class, 'store'])->name('post.save');
+Route::get('/mypage/save', [SavePostController::class, 'index'])->name('post.saved');
 
 // 投稿の既読登録処理（NEXTボタン）※コントローラー側で処理
 Route::post('/post/seen', [PostController::class, 'seen'])->name('post.seen');
