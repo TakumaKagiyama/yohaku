@@ -3,36 +3,42 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>投稿</title>
+    <title>投稿一覧</title>
     <link rel="stylesheet" href="{{ asset('css/post.css') }}">
 </head>
 
 <body>
     <div class="background">
         <div class="post-container">
-            @isset($post)
+            @if ($post)
                 <div class="image-wrapper">
-                    <img src="{{ $post->image_url ?? '/images/default.jpg' }}" alt="投稿画像">
+                    <img src="{{ $post->image }}" alt="投稿画像">
                 </div>
                 <div class="text-wrapper">
-                    <p>{{ $post->text ?? 'テキストなし' }}</p>
-                    @if (!empty($post->tag))
-                        <span class="tag">#{{ $post->tag }}</span>
+                    <p>{{ $post->content }}</p>
+                    @if ($post->genre)
+                        <span class="tag">#{{ $post->genre->name }}</span>
                     @endif
                 </div>
             @else
-                <p>18文字以内のことば</p>
-            @endisset
+                <p>もうすべての投稿を見ました。</p>
+            @endif
         </div>
 
         <div class="controller-grid">
             <a href="/mypage/journal">
-                    <button id="up">MYPAGE</button></a>
+                <button id="up">MYPAGE</button>
+            </a>
             <div class="middle-row">
-                <button id="left">SAVE</button>
-                <button id="right">NEXT</button>
+                <form method="POST" action="{{ route('post.save', ['id' => $post->id ?? 0]) }}">
+                    @csrf
+                    <button id="left">SAVE</button>
+                </form>
+                <form method="GET" action="{{ route('post.index') }}">
+                    <button id="right">NEXT</button>
+                </form>
             </div>
-            <a href="{{ route('post.edit') }}">
+            <a href="{{ route('post.edit', ['id' => $post->id ?? 0]) }}">
                 <button id="down">EDIT</button>
             </a>
         </div>
@@ -45,13 +51,9 @@
 
         <div class="genre-menu" id="genre-menu">
             <ul>
-                @if (!empty($genres) && is_array($genres))
-                    @foreach ($genres as $genre)
-                        <li>{{ $genre }}</li>
-                    @endforeach
-                @else
-                    <li>ジャンル未設定</li>
-                @endif
+                @foreach ($genres as $genre)
+                    <li>{{ $genre }}</li>
+                @endforeach
             </ul>
         </div>
     </div>
