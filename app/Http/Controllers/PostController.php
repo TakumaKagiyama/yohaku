@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-<<<<<<< Updated upstream
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
 use App\Models\SeenPost;
@@ -29,38 +28,21 @@ class PostController extends Controller
     }
 
     // 🔹 投稿保存
-=======
-//以下、川上が書き込ました
-use App\Models\Post; // ← Postモデルを使うなら必要
-use App\Models\Genre;
-
-
-class PostController extends Controller
-{
->>>>>>> Stashed changes
     public function store(Request $request)
     {
         $request->validate([
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'content' => ['required', 'string', 'max:18'],
-<<<<<<< Updated upstream
             'genre' =>  ['required', 'exists:genres,id'],
         ]);
 
         // 画像を保存（storage/app/public/images に保存）
-=======
-            //'genre' =>  ['required', 'exists:genres,id'],//← 一時的にコメントアウト・あとでジャンルできたらとる
-        ]);
-
-        // 画像を保存（storage/app/public/images に保存される）
->>>>>>> Stashed changes
         $imagePath = $request->file('image')->store('images', 'public');
 
         // 投稿データを保存
         Post::create([
             'image' => $imagePath,
             'content' => $request->content,
-<<<<<<< Updated upstream
             'user_id' => Auth::id(),
             'genre_id' => $request->genre,
         ]);
@@ -106,13 +88,11 @@ public function destroy(Post $post)
     return redirect()->route('mypage.my_journal')->with('success', '投稿が削除されました！');
 }
     }
-=======
-            'user_id' => auth()->id(), 
+            'user_id' => auth()->id(),
             //'genre_id' => null, // ← 一時的に null に,ジャンル合体したあとでとる//$request->genre,// ← name="genre" の値を genre_id に入れる
         ]);
 
         // 保存完了後のリダイレクト
         return redirect()->route('mypage.my_journal')->with('success', '投稿が完了しました！');
     }
->>>>>>> Stashed changes
 }

@@ -1,9 +1,6 @@
 <?php
 
-<<<<<<< Updated upstream
-=======
 //川上がgenres.phpをGenre.phpに改名しましたごめんなさい
->>>>>>> Stashed changes
 
 namespace App\Models;
 
