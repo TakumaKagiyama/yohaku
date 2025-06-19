@@ -16,7 +16,13 @@
                 @csrf
                 <input type="text" name="name" placeholder="username" required>
                 <input type="password" name="password" placeholder="password" required>
+                <!-- 管理者コード入力欄 -->
+        <div class="form-group">
+                <label for="admin_code">admin pass</label>
+                <input type="text" name="admin_code" id="admin_code" class="form-control">
+        </div>
                 <button type="submit">LOGIN</button>
+                
             </form>
             @if($errors->any())
     <div class="error">
