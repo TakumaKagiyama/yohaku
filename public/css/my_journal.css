@@ -208,3 +208,20 @@ body, html {
     margin-top: 30px;
 }
 
+.post-edit-button {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 6px 12px;
+    background-color: #f0ad4e;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.post-edit-button:hover {
+    background-color: #ec971f;
+}
+

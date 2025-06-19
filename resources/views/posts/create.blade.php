@@ -44,22 +44,13 @@
 
                     {{-- 下にジャンルとPOSTボタン --}}
                     <div class="form-bottom">
-<<<<<<< Updated upstream
-                        
+
                         <select name="genre" class="tag-select" required>
-=======
-                        {{-- ジャンル機能が整ってから再表示する --}}
-                        {{--<select name="genre" class="tag-select" required>
->>>>>>> Stashed changes
                             <option value="">ジャンルを選択</option>
                             @foreach ($genres as $genre)
                                 <option value="{{ $genre->id }}">{{ $genre->name }}</option>
                             @endforeach
-<<<<<<< Updated upstream
                         </select>
-=======
-                        </select>--}}
->>>>>>> Stashed changes
                         <button type="submit" class="post-button">POST</button>
                     </div>
                 </div>

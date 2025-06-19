@@ -8,13 +8,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Post;
-<<<<<<< Updated upstream
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Log;
 
-=======
->>>>>>> Stashed changes
 use App\Models\Genre;
 
 // auth機能あり
@@ -209,20 +206,16 @@ Route::get('/post/create', function () {
     return view('posts.create', compact('genres')); // ← Bladeに渡す
 })->name('post.create');
 
-<<<<<<< Updated upstream
-=======
-
-// 🔹【9】投稿編集画面（posts/edit.blade.php）
-Route::get('/post/edit', function () {
-    return view('posts.edit');
-})->name('post.edit');
->>>>>>> Stashed changes
+//🔹【9】は内容がかぶってたので削除しました！
 
 // 投稿編集画面の表示（posts/edit.blade.php）← 投稿ID付きで呼び出せる
 Route::get('/post/edit/{post}', [PostController::class, 'edit'])->name('post.edit');
 
 // 投稿内容の更新処理（編集フォームの送信先）
 Route::post('/post/update/{post}', [PostController::class, 'update'])->name('post.update');
+
+// 投稿削除（Destroy）
+Route::delete('/post/delete/{post}', [PostController::class, 'destroy'])->name('post.destroy');
 
 
 // 投稿閲覧画面：未読からランダム1件取得して表示
