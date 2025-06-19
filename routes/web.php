@@ -206,7 +206,9 @@ Route::get('/post/create', function () {
     return view('posts.create', compact('genres')); // ← Bladeに渡す
 })->name('post.create');
 
+
 //🔹【9】は内容がかぶってたので削除しました！
+
 
 // 投稿編集画面の表示（posts/edit.blade.php）← 投稿ID付きで呼び出せる
 Route::get('/post/edit/{post}', [PostController::class, 'edit'])->name('post.edit');
