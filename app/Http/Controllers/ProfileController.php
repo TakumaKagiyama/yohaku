@@ -3,49 +3,95 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * プロフィール編集画面を表示
      */
     public function edit()
     {
-        $user = Auth::user(); // ログインなしで開くならnullの可能性あるので注意！
-        if (!$user) {
-            // ログインしてない人用の処理（例：ダミーデータとか）
-            $user = (object)[
-                'name' => 'ゲスト',
-                'email' => '',
-                'profile_image_url' => asset('images/default_icon.png')
-            ];
-        }
-        return view('mypage.profile_edit', compact('user'));
+
+        if (!Auth::user()) {
+    return redirect('/login'); // 未ログインならログインページへリダイレクト
+}
+
+        return view('mypage.profile_edit');
     }
 
     /**
-     * Update the user's profile information.
+     * 名前・メール・パスワードを更新
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user->fill($request->validated());
+
+        // メール変更されたら確認リセット
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        // パスワードが入力されていれば更新
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        $user->save();
+
+        return Redirect::route('mypage.my_journal')->with('status', 'プロフィールを更新しました');
     }
 
     /**
-     * Delete the user's account.
+     * プロフィール画像のアップロード処理
+     */
+    public function updateImage(Request $request): RedirectResponse
+    {
+        // dd($request);
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+    // ✅ ステップ1：画像がアップロードされているか確認
+    if (!$request->hasFile('profile_image')) {
+        return back()->withErrors(['profile_image' => '画像が選択されていません']);
+    }
+
+    // ✅ ステップ2：届いたファイルの情報を表示（一時的）
+    // dd($request->file('profile_image'));
+
+    // ※以下は今は通りません（確認後に有効化します）
+    $request->validate([
+        'profile_image' => 'required|image|max:2048',
+    ]);
+
+    if ($request->hasFile('profile_image')) {
+        // dd($request->file('profile_image'));
+        // 以前の画像を削除（任意）
+        if ($user->profile_image) {
+            Storage::disk('public')->delete($user->profile_image);
+        }
+
+        // 新しい画像を保存
+        $path = $request->file('profile_image')->store('profile_images', 'public');
+        $user->profile_image = $path;
+        $user->save();
+        // dd($user->profile_image);
+        return Redirect::route('mypage.profile_edit')->with('status', 'プロフィール画像を更新しました');
+    }
+
+        return back()->withErrors(['profile_image' => '画像のアップロードに失敗しました']);
+
+}
+
+    /**
+     * アカウント削除（任意）
      */
     public function destroy(Request $request): RedirectResponse
     {

@@ -22,7 +22,7 @@
             <div class="action-buttons">
                 {{-- <a href="#" class="edit-button">EDIT</a> --}}
                 <a href="{{ route('mypage.profile_edit') }}" class="edit-button">EDIT</a>
-                <a href="{{ route('home') }}" class="home-button">HOME</a>
+                {{-- <a href="{{ route('home') }}" class="home-button">HOME</a> --}}
             </div>
         </div>
 

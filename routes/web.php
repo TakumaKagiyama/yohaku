@@ -11,6 +11,7 @@ use App\Http\Controllers\LoginController;
 
 
 
+
 // auth機能あり
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,9 @@ Route::get('/welcome', function () {
     return view('welcome');
 })->middleware('auth'); // ログインしていないとアクセス不可
 
+// プロフィール編集ページと更新処理
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
 
 
