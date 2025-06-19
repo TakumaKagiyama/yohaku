@@ -1,6 +1,5 @@
 <?php
 
-//川上がgenres.phpをGenre.phpに改名しましたごめんなさい
 
 namespace App\Models;
 

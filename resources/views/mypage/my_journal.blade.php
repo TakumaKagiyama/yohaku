@@ -38,13 +38,14 @@
             @if ($posts->isNotEmpty())
                 @foreach ($posts as $post)
                     <div class="post">
-<<<<<<< Updated upstream
                         <img src="{{ asset('storage/' . $post->image) }}" alt="投稿画像">
-=======
-                        <img src="{{ asset('storage/' . $post->image_url) }}" alt="投稿画像">
->>>>>>> Stashed changes
                         <p class="word">{{ $post->content }}</p>
-                        <span class="tag">{{ $post->genre->name ?? 'ジャンルなし'  }}</span>
+                        <span class="tag">{{ $post->genre->name ?? 'ジャンルなし' }}</span>
+
+                        {{-- 投稿の編集ボタン --}}
+                        <div class="post-buttons">
+                            <a href="{{ route('post.edit', $post->id) }}" class="post-edit-button">編集する</a>
+                        </div>
                     </div>
                 @endforeach
             @else

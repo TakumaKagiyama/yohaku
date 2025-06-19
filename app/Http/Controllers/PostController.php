@@ -63,7 +63,7 @@ class PostController extends Controller
     {
         $request->validate([
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-            'content' => ['required', 'string', 'max:18', 'regex:/^[^!-/:-@¥[-`{-~]+$/u'],
+            'content' => ['required', 'string', 'max:18', 'regex:/^[^!-\~]+$/u'],
             'genre' => ['required', 'exists:genres,id'],
         ]);
 
@@ -78,21 +78,12 @@ class PostController extends Controller
         $post->save();
 
         return redirect()->route('mypage.my_journal')->with('success', '投稿が更新されました！');
-
+    }
         // 投稿削除メソッド
-public function destroy(Post $post)
-{
-    // 投稿を削除
-    $post->delete();
-
-    return redirect()->route('mypage.my_journal')->with('success', '投稿が削除されました！');
-}
+        public function destroy(Post $post)
+    {
+        $post->delete();
+        return redirect()->route('mypage.my_journal')->with('success', '投稿を削除しました');
     }
-            'user_id' => auth()->id(),
-            //'genre_id' => null, // ← 一時的に null に,ジャンル合体したあとでとる//$request->genre,// ← name="genre" の値を genre_id に入れる
-        ]);
 
-        // 保存完了後のリダイレクト
-        return redirect()->route('mypage.my_journal')->with('success', '投稿が完了しました！');
-    }
 }

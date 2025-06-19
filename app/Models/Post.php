@@ -14,8 +14,7 @@ class Post extends Model
         'user_id',
         'genre_id',
     ];
-    // リレーション
-    protected $fillable = ['user_id', 'genre_id', 'content', 'image'];
+    
 
     // 🔹投稿をしたユーザーとのリレーション（1投稿は1ユーザーに属す）
     public function user()
