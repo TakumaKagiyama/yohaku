@@ -1,15 +1,18 @@
 <?php
 
+use App\Models\Theme;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SavePostController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
+use Illuminate\Support\Facades\Log;
 
-
+use App\Models\Genre;
 
 
 // auth機能あり
@@ -34,14 +37,44 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.for
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::get('/admin/create', function () {
+    return view('auth.admin_create');
+})->name('admin.create');
+
 Route::get('/welcome', function () {
-    return view('welcome');
-})->middleware('auth'); // ログインしていないとアクセス不可
+    $latestTheme = \App\Models\Theme::latest()->first(); // ← 追加
+    return view('welcome', ['theme' => $latestTheme]);    // ← 修正
+})->middleware('auth')->name('welcome'); // ログインしていないとアクセス不可
 
 // プロフィール編集ページと更新処理
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
+// 管理者からテーマを保存する処理
+Route::post('/admin/post', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'theme' => 'required|max:255',
+    ]);
+    // ✅ テーマをDBに保存する処理
+    Theme::create(['text' => $request->theme]);
+    // ✅ 保存後、welcomeページにリダイレクト
+    return redirect()->route('welcome')->with('message', '投稿されました');
+})->name('admin.post');
+
+Route::post('/admin/post', function (\Illuminate\Http\Request $request) {
+    Log::info('Admin post received', $request->all());
+    $request->validate([
+        'theme' => 'required|max:255',
+    ]);
+    \App\Models\Theme::create(['text' => $request->theme]);
+    return redirect()->route('welcome')->with('message', '投稿されました');
+})->name('admin.post');
+
+// 消しても良いかも！！！！！！
+// Route::post('/admin/post', function (Request $req) {
+//     Theme::create(['text' => $req->theme]);
+//     return redirect()->route('welcome');
+// })->name('admin.post');
 
 
 // // 🔸【1】トップページ（アクセス時にログイン画面へリダイレクト）
@@ -174,28 +207,47 @@ Route::get('/admin/create', function () {
 
 // 🔹【8】投稿作成画面（posts/create.blade.php）
 Route::get('/post/create', function () {
-    return view('posts.create');
+    $genres = Genre::all(); // ← DBからジャンル一覧を取得
+    return view('posts.create', compact('genres')); // ← Bladeに渡す
 })->name('post.create');
+
 
 // 🔹【9】投稿編集画面（posts/edit.blade.php）
 Route::get('/post/edit', function () {
     return view('posts.edit');
 })->name('post.edit');
 
-// 🔹投稿編集画面（edit.blade.php）へのルート
-Route::get('/post/edit', function () {
-    return view('posts.edit');
-})->name('post.edit');
+// 投稿編集画面の表示（posts/edit.blade.php）← 投稿ID付きで呼び出せる
+Route::get('/post/edit/{post}', [PostController::class, 'edit'])->name('post.edit');
 
-// 🔹【10】投稿詳細一覧（posts/index.blade.php）
-Route::get('/post/index', function () {
-    return view('posts.index');
-})->name('post.index');
+// 投稿内容の更新処理（編集フォームの送信先）
+Route::post('/post/update/{post}', [PostController::class, 'update'])->name('post.update');
+
+
+// 投稿閲覧画面：未読からランダム1件取得して表示
+Route::get('/post', [PostController::class, 'index'])->name('post.index');
+
+
+// 投稿の保存処理（SAVEボタン） ※コントローラー側で処理
+Route::post('/post/{id}/save', [SavePostController::class, 'store'])->name('post.save');
+Route::get('/mypage/save', [SavePostController::class, 'index'])->name('post.saved');
+
+// 投稿の既読登録処理（NEXTボタン）※コントローラー側で処理
+Route::post('/post/seen', [PostController::class, 'seen'])->name('post.seen');
+
+
+// // 🔹【HOME】トップページ（posts/index.blade.php に変更）
 
 // 🔹【HOME】トップページ（posts/index.blade.php に変更）
+
 // Route::get('/', function () {
 //     return view('posts.index'); // ← ここを変更！
 // })->name('home');
+
+// 🔹【HOME】トップページ（posts/index.blade.php に変更）
+Route::get('/', function () {
+    return view('posts.index');
+})->name('home');
 
 // 🔹【11】アーカイブページ（posts/archive.blade.php）
 Route::get('/archive', function () {
@@ -207,7 +259,8 @@ Route::post('/post', [PostController::class, 'store'])->name('post.store');
 
 // 🔹【13】マイページ（投稿/保存/履歴）mypage/my_journal.blade.php
 Route::get('/mypage/my_journal', function () {
-    return view('mypage.my_journal');
+    $posts = Post::latest()->get(); // 複数投稿の取り扱い・最新順にすべて取得・川上書き込んだ（新規投稿ページの機能関連）
+    return view('mypage.my_journal', compact('posts'));
 })->name('mypage.my_journal');
 
 // 🔹【14】モード切替ページ（mypage/my_mode.blade.php）
@@ -236,18 +289,6 @@ Route::get('/mypage/profile/edit-view', function () {
 Route::get('/admin/create', function () {
     return view('auth.admin_create');
 })->name('admin.create');
-
-Route::post('/admin/post', function (\Illuminate\Http\Request $request) {
-    // バリデーション例（任意）
-    $request->validate([
-        'theme' => 'required|max:255',
-    ]);
-
-    // ここに保存処理（例: DB保存など）
-    // 例: AdminPost::create(['theme' => $request->theme]);
-
-    return back()->with('message', '投稿されました');
-})->name('admin.post');
 
 // 🔹【19】Laravel認証のルート（未使用でもOK）
 // require __DIR__ . '/auth.php';

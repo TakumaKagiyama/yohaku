@@ -15,6 +15,17 @@
 
             <form action="{{ route('admin.post') }}" method="POST" class="admin-form">
                 @csrf
+                @if(session('success'))
+        <p style="color: green; margin-top: 10px;">{{ session('success') }}</p>
+    @endif
+
+    @if($errors->any())
+        <ul style="color: red; margin-top: 10px;">
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
                 <input type="text" name="theme" placeholder="今日のテーマを入力してください" required>
                 <button type="submit">POST</button>
             </form>
