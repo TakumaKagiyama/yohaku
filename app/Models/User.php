@@ -11,7 +11,8 @@ class User extends Authenticatable
 
 
     public $timestamps = false;
-    protected $fillable = ['name', 'email', 'password', 'is_admin', 'created_at'];
+    protected $fillable = ['name', 'email', 'password', 'is_admin', 'created_at', 'profile_image'];
+
 
     public function posts()
     {

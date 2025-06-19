@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 
 use App\Models\Genre;
 
+
 // auth機能あり
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,10 @@ Route::get('/welcome', function () {
     $latestTheme = \App\Models\Theme::latest()->first(); // ← 追加
     return view('welcome', ['theme' => $latestTheme]);    // ← 修正
 })->middleware('auth')->name('welcome'); // ログインしていないとアクセス不可
+
+// プロフィール編集ページと更新処理
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
 // 管理者からテーマを保存する処理
 Route::post('/admin/post', function (\Illuminate\Http\Request $request) {
