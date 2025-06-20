@@ -28,7 +28,9 @@
                 </div>
 
             </div>
+
             <a href="/post/create" class="post-button">POST</a>
+
         </div>
     </div>
 </body>
