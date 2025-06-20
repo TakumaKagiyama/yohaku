@@ -26,9 +26,11 @@
                 <div class="title-sub">
                     {{ $theme->text ?? '今日のことばがまだ設定されていません' }}
                 </div>
-                
+
             </div>
-            <a href="/create" class="post-button">POST</a>
+
+            <a href="/post/create" class="post-button">POST</a>
+
         </div>
     </div>
 </body>
