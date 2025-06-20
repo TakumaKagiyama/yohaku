@@ -41,7 +41,7 @@
                 </form>
             </div>
 
-            <a href="{{ route('post.edit', ['id' => $post->id ?? 0]) }}">
+            <a href="{{ route('post.edit', ['post' => $post->id ?? 0]) }}">
                 <button id="down" class="controller-btn">EDIT</button>
             </a>
         </div>

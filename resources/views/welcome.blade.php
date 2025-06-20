@@ -28,7 +28,7 @@
                 </div>
                 
             </div>
-            <a href="/post" class="post-button">POST</a>
+            <a href="/create" class="post-button">POST</a>
         </div>
     </div>
 </body>
