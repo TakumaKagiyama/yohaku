@@ -10,23 +10,22 @@
 <body>
     <div class="profile-background">
         <div class="top-buttons">
-            <a href="{{ route('login') }}">LOGIN</a>
             <a href="javascript:void(0);" onclick="showLogoutModal()">LOGOUT</a>
         </div>
 
         <div class="profile-container">
-            <img class="profile-image" src="{{ asset('images/sample-user.png') }}" alt="プロフィール画像">
-            <h2 class="username">誠一郎くん</h2>
-            <p class="user-comment">チャンスの神様は前頭しかない 🐣
-                俺がそう思ったからそう思った
-            </p>
+    <img class="profile-image"
+            src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('images/default_icon.png') }}"
+            alt="プロフィール画像">
 
-            <div class="action-buttons">
-                {{-- <a href="#" class="edit-button">EDIT</a> --}}
-                <a href="{{ route('mypage.profile_edit') }}" class="edit-button">EDIT</a>
-                {{-- <a href="{{ route('home') }}" class="home-button">HOME</a> --}}
-            </div>
-        </div>
+    <h2 class="username">{{ Auth::user()->name }}さん</h2>
+
+    <div class="action-buttons">
+        <a href="{{ route('mypage.profile_edit') }}" class="edit-button">EDIT</a>
+    </div>
+</div>
+
+
 
         <div class="post-section">
             <div class="post-tabs">
