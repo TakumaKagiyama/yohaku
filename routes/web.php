@@ -210,6 +210,8 @@ Route::get('/post/create', function () {
     $genres = Genre::all(); // ← DBからジャンル一覧を取得
     return view('posts.create', compact('genres')); // ← Bladeに渡す
 })->name('post.create');
+Route::post('/post', [PostController::class, 'store'])->middleware('auth')->name('post.store');
+
 
 
 //🔹【9】は内容がかぶってたので削除しました！
@@ -246,9 +248,8 @@ Route::post('/post/seen', [PostController::class, 'seen'])->name('post.seen');
 // })->name('home');
 
 // 🔹【HOME】トップページ（posts/index.blade.php に変更）
-Route::get('/', function () {
-    return view('posts.index');
-})->name('home');
+Route::get('/', [PostController::class, 'index'])->name('home');
+
 
 // 🔹【11】アーカイブページ（posts/archive.blade.php）
 Route::get('/archive', function () {
