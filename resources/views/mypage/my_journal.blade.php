@@ -36,27 +36,46 @@
 
             {{-- 投稿がある場合 --}}
             @if ($posts->isNotEmpty())
-                @foreach ($posts as $post)
-                    <div class="post">
-                        <img src="{{ asset('storage/' . $post->image) }}" alt="投稿画像">
-                        <p class="word">{{ $post->content }}</p>
-                        <span class="tag">{{ $post->genre->name ?? 'ジャンルなし' }}</span>
-
-                        {{-- 投稿の編集ボタン --}}
-                        <div class="post-buttons">
-                            <a href="{{ route('post.edit', $post->id) }}" class="post-edit-button">編集する</a>
+                <div class="post-grid">
+                    @foreach ($posts as $post)
+                        <div class="post-card">
+                            <div class="image-box">
+                                <img src="{{ asset('storage/' . $post->image) }}" alt="投稿画像">
+                            </div>
+                            <div class="content-box">
+                                <p class="content-text">{{ $post->content }}</p>
+                                <p class="genre-tag">#{{ $post->genre->name ?? 'ジャンルなし' }}</p>
+                            </div>
+                            <div class="post-buttons">
+                                <a href="{{ route('post.edit', $post->id) }}" class="post-edit-button">編集する</a>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             @else
                 {{-- 投稿がないときの表示 --}}
                 <p class="no-post">まだ投稿がありません。</p>
             @endif
 
-            <div class="saved">
-                <div class="post-item"><img src="{{ asset('images/sample-post.jpg') }}" alt="保存1"></div>
-                <div class="post-item"><img src="{{ asset('images/sample-post.jpg') }}" alt="保存2"></div>
-            </div>
+            {{-- 保存済み一覧--}}
+            @if ($savedPosts->isNotEmpty())
+                <div class="post-grid">
+                    @foreach ($savedPosts as $post)
+                        <div class="post-card">
+                            <div class="image-box">
+                                <img src="{{ asset('storage/' . $post->image) }}" alt="保存済み画像">
+                            </div>
+                            <div class="content-box">
+                                <p class="content-text">{{ $post->content }}</p>
+                                <p class="genre-tag">#{{ $post->genre->name ?? 'ジャンルなし' }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <p class="no-post">まだ保存された投稿がありません。</p>
+            @endif
+
         </div>
     </div>
 

@@ -130,28 +130,6 @@ body, html {
     margin: 0;
 }
 
-/* 投稿と保存一覧表示 */
-.posts, .saved {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 24px;
-}
-
-.post-item img {
-    width: 240px;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 16px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.post-item img:hover {
-    transform: scale(1.03);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-}
-
 .logout-modal {
     position: absolute;
     top: 50px;
@@ -208,20 +186,101 @@ body, html {
     margin-top: 30px;
 }
 
+.post-buttons {
+    text-align: center;
+    padding: 4px 8px; /* ← 上下をさらに小さく */
+    border-top: 1px solid #eee;
+    background: rgba(255, 255, 255, 0.8);
+    height: auto; /* ← 念のため高さ制限なしにしておく */
+}
+
 .post-edit-button {
     display: inline-block;
-    margin-top: 8px;
     padding: 6px 12px;
     background-color: #f0ad4e;
     color: #fff;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-weight: bold;
+    font-size: 13px;
     transition: background-color 0.3s ease;
-    font-size: 14px;
 }
 
 .post-edit-button:hover {
     background-color: #ec971f;
+}
+
+
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.post-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 340px; /* ← 高さを固定して見た目を統一 */
+}
+
+
+.image-box {
+    width: 100%;
+    height: 200px; /* ← 高さ固定 */
+    overflow: hidden;
+}
+
+.image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 画像中央を切り取り表示 */
+    display: block;
+}
+
+.content-box {
+    height: 80px; /* ← 高さを調整 */
+    padding: 8px 12px;
+    position: relative;
+    background: rgba(0, 0, 0, 0.05);
+    text-align: center;
+
+    display: flex;             /* 中央寄せのために追加 */
+    flex-direction: column;   /* 縦方向に */
+    justify-content: center;  /* 縦中央に配置 */
+}
+
+
+
+.content-text {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+    word-break: break-word;
+}
+
+
+
+.content-text {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+    word-break: break-word;
+}
+
+.genre-tag {
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+    font-size: 0.85rem;
+    color: #555;
 }
 

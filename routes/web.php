@@ -259,10 +259,8 @@ Route::get('/archive', function () {
 Route::post('/post', [PostController::class, 'store'])->name('post.store');
 
 // 🔹【13】マイページ（投稿/保存/履歴）mypage/my_journal.blade.php
-Route::get('/mypage/my_journal', function () {
-    $posts = Post::latest()->get(); // 複数投稿の取り扱い・最新順にすべて取得・川上書き込んだ（新規投稿ページの機能関連）
-    return view('mypage.my_journal', compact('posts'));
-})->name('mypage.my_journal');
+Route::get('/mypage/my_journal', [ProfileController::class, 'journal'])->name('mypage.my_journal');
+
 
 // 🔹【14】モード切替ページ（mypage/my_mode.blade.php）
 Route::get('/mypage/mode', function () {
