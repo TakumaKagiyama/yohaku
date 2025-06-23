@@ -27,6 +27,14 @@ class PostController extends Controller
         return view('posts.index', compact('post', 'genres'));
     }
 
+    // 投稿作成画面表示
+    public function create()
+    {
+        $genres = Genre::all(); // ← genresテーブルから全部取得
+        return view('posts.create', compact('genres')); // ← create.bladeに渡す
+    }
+
+
     // 🔹 投稿保存
     public function store(Request $request)
     {
@@ -79,11 +87,10 @@ class PostController extends Controller
 
         return redirect()->route('mypage.my_journal')->with('success', '投稿が更新されました！');
     }
-        // 投稿削除メソッド
-        public function destroy(Post $post)
+    // 投稿削除メソッド
+    public function destroy(Post $post)
     {
         $post->delete();
         return redirect()->route('mypage.my_journal')->with('success', '投稿を削除しました');
     }
-
 }
