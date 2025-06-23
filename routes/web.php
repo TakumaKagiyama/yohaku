@@ -247,6 +247,10 @@ Route::post('/post/seen', [PostController::class, 'seen'])->name('post.seen');
 //     return view('posts.index'); // ← ここを変更！
 // })->name('home');
 
+Route::get('/', function () {
+    return view('posts.index');
+})->name('home');
+
 // 🔹【HOME】トップページ（posts/index.blade.php に変更）
 Route::get('/', [PostController::class, 'index'])->name('home');
 

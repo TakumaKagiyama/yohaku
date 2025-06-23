@@ -22,6 +22,7 @@
 
     <div class="action-buttons">
         <a href="{{ route('mypage.profile_edit') }}" class="edit-button">EDIT</a>
+        <a href="{{ route('home') }}" class="edit-button">HOME</a>
     </div>
 </div>
 
