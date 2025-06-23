@@ -286,10 +286,10 @@ Route::get('/mypage/profile/edit-view', function () {
     return view('mypage.profile_edit');
 })->name('profile.edit.view');
 
-// 認証不要でアクセス可能な管理者投稿ページ
-Route::get('/admin/create', function () {
-    return view('auth.admin_create');
-})->name('admin.create');
+// // 認証不要でアクセス可能な管理者投稿ページ
+// Route::get('/admin/create', function () {
+//     return view('auth.admin_create');
+// })->name('admin.create');
 
 // 🔹【19】Laravel認証のルート（未使用でもOK）
 // require __DIR__ . '/auth.php';
