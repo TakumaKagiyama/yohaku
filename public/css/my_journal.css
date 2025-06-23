@@ -213,7 +213,7 @@ body, html {
 
 .post-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);  /* ← auto-fit から固定の3列へ変更 */
     gap: 20px;
     justify-content: center;
     margin-top: 20px;
