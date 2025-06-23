@@ -28,17 +28,21 @@ body, html {
     margin-bottom: 20px;
 }
 
-.login-box input {
+/* 共通スタイル（input, buttonの基本形）← ここを追加！ */
+.login-box input,
+.login-box button {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     font-size: 16px;
+    box-sizing: border-box;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+/* ボタン専用スタイル（デザイン装飾） */
 .login-box button {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
     background-color: #333;
     color: white;
     border: none;
@@ -49,4 +53,26 @@ body, html {
 .error {
     color: red;
     margin-bottom: 10px;
+}
+
+/*新規登録ボタン*/
+.register-link {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.register-link a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.register-link a:hover {
+    background-color: #555;
 }
