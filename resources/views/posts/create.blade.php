@@ -26,8 +26,8 @@
                     {{-- 🔻 1日1回制限のときだけボタン表示 --}}
                     @if ($errors->has('error') && $errors->first('error') === '投稿は1日1回までです。明日また投稿してください。')
                         <div class="error-actions" style="margin-top: 1em;">
-                            <a href="{{ route('mypage.my_journal') }}" class="btn">マイジャーナルに戻る</a>
-                            <a href="{{ url('/post') }}" class="btn" style="margin-left: 1em;">投稿一覧へ</a>
+                            <a href="{{ route('mypage.my_journal') }}" class="btn">MYPAGE</a>
+                            <a href="{{ url('/post') }}" class="btn" style="margin-left: 1em;">HOME</a>
                         </div>
                     @endif
                 </div>
