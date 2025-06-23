@@ -252,7 +252,11 @@ Route::get('/', function () {
 })->name('home');
 
 // 🔹【HOME】トップページ（posts/index.blade.php に変更）
-Route::get('/', [PostController::class, 'index'])->name('home');
+Route::get('/', [PostController::class, 'index'])->middleware('auth')->name('home');
+// 最初のページでログイン画面にリダイレクトさせたいなら
+Route::get('/', function () {
+    return redirect()->route('login.form'); // ここは自分のloginルート名にあわせて
+});
 
 
 // 🔹【11】アーカイブページ（posts/archive.blade.php）
