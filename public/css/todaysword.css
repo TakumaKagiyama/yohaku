@@ -145,3 +145,18 @@ body {
 .post-button:hover {
     background-color: #ddd;
 }
+
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #d8cfc7;
+    color: #333;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #b8afa8;
+}

@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
+
 use App\Models\Post;
 use App\Models\SeenPost;
 use App\Models\Genre;
@@ -38,16 +42,27 @@ class PostController extends Controller
     // 🔹 投稿保存
     public function store(Request $request)
     {
+        // 今日すでに投稿しているか確認
+        $alreadyPostedToday = DB::table('posts')
+            ->where('user_id', Auth::id())
+            ->whereDate('created_at', Carbon::today())
+            ->exists();
+
+        if ($alreadyPostedToday) {
+            return redirect()->back()->withErrors(['error' => '投稿は1日1回までです。明日また投稿してください。'])->withInput();
+        }
+
+        // 通常のバリデーション
         $request->validate([
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-            'content' => ['required', 'string', 'max:18'],
-            'genre' =>  ['required', 'exists:genres,id'],
+            'content' => ['required', 'string', 'max:18', 'regex:/^[^!-\~]+$/u'],
+            'genre' => ['required', 'exists:genres,id'],
         ]);
 
-        // 画像を保存（storage/app/public/images に保存）
+        // 画像保存
         $imagePath = $request->file('image')->store('images', 'public');
 
-        // 投稿データを保存
+        // 投稿保存
         Post::create([
             'image' => $imagePath,
             'content' => $request->content,
@@ -55,9 +70,9 @@ class PostController extends Controller
             'genre_id' => $request->genre,
         ]);
 
-        // リダイレクト
         return redirect()->route('mypage.my_journal')->with('success', '投稿が完了しました！');
     }
+
 
     //editメソッド
     public function edit(Post $post)
