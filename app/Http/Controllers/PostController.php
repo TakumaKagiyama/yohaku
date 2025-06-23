@@ -8,9 +8,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 
-use App\Models\Post;
 use App\Models\SeenPost;
+
+// @@ -29,38 +28,21 @@ public function index()
+
+    // 🔹 投稿保存
+//以下、川上が書き込ました
+use App\Models\Post; // ← Postモデルを使うなら必要
 use App\Models\Genre;
+
 
 class PostController extends Controller
 {
@@ -66,6 +72,7 @@ class PostController extends Controller
         Post::create([
             'image' => $imagePath,
             'content' => $request->content,
+
             'user_id' => Auth::id(),
             'genre_id' => $request->genre,
         ]);

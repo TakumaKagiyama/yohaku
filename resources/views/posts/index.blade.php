@@ -38,6 +38,8 @@
 
                 <form method="GET" action="{{ route('post.index') }}">
                     <button id="right" class="controller-btn">NEXT</button>
+                {{-- <a href="{{ route('post.edit', ['post' => $post->id ?? 0]) }}"> --}}
+                    {{-- <button id="right" class="controller-btn">NEXT</button> --}}
                 </form>
             </div>
 
