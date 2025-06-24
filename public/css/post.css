@@ -1,7 +1,8 @@
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: "Arial", sans-serif;
     height: 100%;
     width: 100%;
     overflow: hidden;
@@ -31,11 +32,12 @@ body, html {
 }
 
 .post-image {
-    width: 100%;
+    max-width: 100%;
+    max-height: 50vh; /* 画面の縦半分を上限に */
     height: auto;
     display: block;
-    margin: 0 auto 2%;
-    border-radius: 2%;
+    margin: 0 auto 20px;
+    border-radius: 12px;
     object-fit: contain;
 }
 
@@ -49,7 +51,6 @@ body, html {
     margin-top: 0.8vw;
     font-size: 1vw;
 }
-
 
 /* 操作ボタン全体 */
 .controller-grid {
