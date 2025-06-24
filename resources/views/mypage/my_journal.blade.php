@@ -84,7 +84,12 @@
             @if ($posts->isNotEmpty())
             <div class="post-grid" id="postList">
                 @foreach ($posts as $post)
-                    <div class="post-card">
+                <div class="post-card"
+                onclick="showModal(
+                    '{{ asset('storage/' . $post->image) }}',
+                    '{{ addslashes($post->content) }}',
+                    '{{ $post->genre->name ?? 'ジャンルなし' }}'
+                )">
                         <div class="image-box">
                             <img src="{{ asset('storage/' . $post->image) }}" alt="投稿画像">
                         </div>
@@ -93,7 +98,7 @@
                             <p class="genre-tag">#{{ $post->genre->name ?? 'ジャンルなし' }}</p>
                         </div>
                         <div class="post-buttons">
-                            <a href="{{ route('post.edit', $post->id) }}" class="post-edit-button">編集する</a>
+                            <a href="{{ route('post.edit', $post->id) }}" class="post-edit-button">EDIT</a>
                         </div>
                     </div>
                 @endforeach
@@ -109,7 +114,12 @@
         @if ($savedPosts->isNotEmpty())
     <div class="post-grid" id="savedList" style="display: none;">
         @foreach ($savedPosts as $post)
-            <div class="post-card">
+        <div class="post-card"
+        onclick="showModal(
+            '{{ asset('storage/' . $post->image) }}',
+            '{{ addslashes($post->content) }}',
+            '{{ $post->genre->name ?? 'ジャンルなし' }}'
+        )">
                 <div class="image-box">
                     <img src="{{ asset('storage/' . $post->image) }}" alt="保存済み画像">
                 </div>
@@ -178,7 +188,29 @@
     window.addEventListener('DOMContentLoaded', () => {
         showTab('post'); // ← 初期タブを確実に表示する
     });
+
+    function showModal(imageSrc, content, genre) {
+        document.getElementById('modalImage').src = imageSrc;
+        document.getElementById('modalContent').innerText = content;
+        document.getElementById('modalGenre').innerText = genre ? '#' + genre : '#ジャンルなし';
+
+        document.getElementById('postModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('postModal').style.display = 'none';
+    }
+
 </script>
 
+<!-- 投稿詳細モーダル -->
+<div id="postModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <img id="modalImage" src="" alt="詳細画像">
+        <p id="modalContent" class="modal-text"></p>
+        <p id="modalGenre" class="modal-genre"></p>
+    </div>
+</div>
 
 </html>
