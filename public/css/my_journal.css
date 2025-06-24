@@ -3,9 +3,9 @@ body, html {
     padding: 0;
     font-family: 'Arial', sans-serif;
     background-color: #f7f4f1;
-    height: auto;
+    height: 100vh;
     min-height: 100%;
-    overflow-y: auto;
+    overflow: auto;
 }
 
 /* 背景画像全体 */
@@ -17,8 +17,13 @@ body, html {
     position: relative;
     padding-top: 60px;
     text-align: center;
-    min-height: 100%;
+    min-height: 100vh;
+    width: 100vw;
     height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto; /* 内容が長くなったらスクロール */
 }
 
 /* ログイン・ログアウトボタン */
@@ -109,14 +114,16 @@ body, html {
 /* 投稿＆保存エリア */
 .post-section {
     /* max-width: 1200px; */
-    margin: 0 auto;
+    margin: 20px auto;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 24px;
     padding: 30px 20px 40px;
-    max-width: 900px;
+    max-width: 1000px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     max-height: none;
-    overflow: visible;
+    overflow: auto;
+    flex-grow: 1;
+    width: 100%;
 }
 
 .post-grid {
@@ -144,6 +151,17 @@ body, html {
 
 .post-tabs h3 {
     margin: 0;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.post-tabs h3:hover {
+    background-color: #f1e8dc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .logout-modal {
@@ -203,7 +221,7 @@ body, html {
     border-bottom: 2px solid #3d2b1f;
 }
 
-.modal-overlay {
+/* .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -234,18 +252,6 @@ body, html {
     border-radius: 12px;
 }
 
-.modal-text {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #333;
-}
-
-.modal-genre {
-    font-size: 14px;
-    color: #777;
-    margin-top: 10px;
-}
-
 .modal-close {
     position: absolute;
     top: 12px;
@@ -254,6 +260,78 @@ body, html {
     font-weight: bold;
     color: #333;
     cursor: pointer;
+} */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.modal-overlay {
+    background-color: rgba(0, 0, 0, 0.4); /* 画面全体を半透明に暗くする */
+}
+
+.modal-content {
+    max-width: 95vw;
+    max-height: 95vh;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.3);  /* 薄い白 */
+    backdrop-filter: blur(10px);          /* 背景をぼかす */
+    -webkit-backdrop-filter: blur(10px);  /* Safari対応 */
+    border-radius: 12px;
+    /* padding: 20px;
+    border-radius: 12px;
+    max-width: 90%;
+    max-height: 90%; */
+    overflow: auto;
+    text-align: center;
+    position: relative; */
+}
+
+.modal-content img {
+    max-width: 90vw;
+    max-height: 70vh;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 40px;
+    cursor: pointer;
+    color: #555;
+}
+
+.modal-text {
+    font-size: 2rem;
+    color: #fbf7f7;
+    margin-top: 16px;
+}
+
+.modal-genre {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-top: 8px;
+}
+
+.content-text {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.content-text:hover {
+    color: #000;
+    text-decoration: underline;
 }
 
 @keyframes fadeIn {
@@ -310,8 +388,14 @@ body, html {
     flex-direction: column;
     position: relative;
     height: 340px; /* ← 高さを固定して見た目を統一 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
+.post-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
 
 .image-box {
     width: 100%;
@@ -346,16 +430,14 @@ body, html {
     color: #333;
     margin-bottom: 8px;
     word-break: break-word;
+    cursor: pointer;
+    transition: color 0.2s ease;
 }
 
 
-
-.content-text {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 8px;
-    word-break: break-word;
+.content-text:hover {
+    color: #000;
+    text-decoration: underline;
 }
 
 .genre-tag {
