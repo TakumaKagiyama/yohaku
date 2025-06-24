@@ -12,7 +12,8 @@
         <div class="post-container">
             @if ($post)
                 <div class="image-wrapper">
-                    <img src="{{ asset('storage/' . $post->image) }}" alt="投稿画像">
+
+                    <img src="{{ asset('storage/' . $post->image) }}" alt="投稿画像" class="post-image">
                 </div>
                 <div class="text-wrapper">
                     <p>{{ $post->content }}</p>
@@ -39,7 +40,7 @@
                 <form method="GET" action="{{ $post->genre ? route('post.genre', ['genre_id' => $post->genre->id]) : route('post.index') }}">
                     <input type="hidden" name="current" value="{{ $post->id ?? '' }}">
                     <button id="right" class="controller-btn">NEXT</button>
-                {{-- <a href="{{ route('post.edit', ['post' => $post->id ?? 0]) }}"> --}}
+                    {{-- <a href="{{ route('post.edit', ['post' => $post->id ?? 0]) }}"> --}}
                     {{-- <button id="right" class="controller-btn">NEXT</button> --}}
                 </form>
             </div>
@@ -62,11 +63,11 @@
                     <li class="genre-item">
                         <a href="{{ route('post.genre', ['genre_id' => $genre->id]) }}">{{ $genre->name }}</a>
                     </li>
+
                 @endforeach
             </ul>
         </div>
     </div>
-
     <div class="genre-slider">
     <div class="genre-track">
         @foreach ($genres as $genre)
