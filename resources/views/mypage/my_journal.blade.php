@@ -15,17 +15,17 @@
         </div>
 
         <div class="profile-container">
-    <img class="profile-image"
-            src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('images/default_icon.png') }}"
-            alt="プロフィール画像">
+            <img class="profile-image"
+                src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('images/default_icon.png') }}"
+                alt="プロフィール画像">
 
-    <h2 class="username">{{ Auth::user()->name }}さん</h2>
+            <h2 class="username">{{ Auth::user()->name }}さん</h2>
 
-    <div class="action-buttons">
-        <a href="{{ route('mypage.profile_edit') }}" class="edit-button">EDIT</a>
-        <a href="{{ route('post.index') }}" class="edit-button">HOME</a>
-    </div>
-</div>
+            <div class="action-buttons">
+                <a href="{{ route('mypage.profile_edit') }}" class="edit-button">EDIT</a>
+                <a href="{{ route('post.index') }}" class="edit-button">HOME</a>
+            </div>
+        </div>
 
 
 
@@ -38,7 +38,7 @@
             <div class="post-tabs">
                 <h3 class="active" onclick="showTab('post')">POSTS</h3>
                 <h3 onclick="showTab('save')">SAVE</h3>
-            </div>            
+            </div>
 
             {{-- 投稿がある場合 --}}
             {{-- @if ($posts->isNotEmpty())
@@ -60,7 +60,7 @@
                 </div>
             @else
                 {{-- 投稿がないときの表示 --}}
-                {{-- <p class="no-post">まだ投稿がありません。</p>
+            {{-- <p class="no-post">まだ投稿がありません。</p>
             @endif --}}
 
             {{-- 保存済み一覧
@@ -83,59 +83,65 @@
             @endif --}}
 
             @if ($posts->isNotEmpty())
-            <div class="post-grid" id="postList">
-                @foreach ($posts as $post)
-                <div class="post-card"
-                onclick="showModal(
+                <div class="post-grid" id="postList">
+                    @foreach ($posts as $post)
+                        <div class="post-card"
+                            onclick="showModal(
                     '{{ asset('storage/' . $post->image) }}',
                     '{{ addslashes($post->content) }}',
                     '{{ $post->genre->name ?? 'ジャンルなし' }}'
                 )">
-                        <div class="image-box">
-                            <img src="{{ asset('storage/' . $post->image) }}" alt="投稿画像">
+                            <div class="image-box">
+                                <img src="{{ asset('storage/' . $post->image) }}" alt="投稿画像">
+                            </div>
+                            <div class="content-box">
+                                <p class="content-text">{{ $post->content }}</p>
+                                <p class="genre-tag">#{{ $post->genre->name ?? 'ジャンルなし' }}</p>
+                            </div>
+                            <div class="post-buttons">
+                                <a href="{{ route('post.edit', $post->id) }}" class="post-edit-button">EDIT</a>
+                            </div>
                         </div>
-                        <div class="content-box">
-                            <p class="content-text">{{ $post->content }}</p>
-                            <p class="genre-tag">#{{ $post->genre->name ?? 'ジャンルなし' }}</p>
-                        </div>
-                        <div class="post-buttons">
-                            <a href="{{ route('post.edit', $post->id) }}" class="post-edit-button">EDIT</a>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        @else
-            <div id="postList">
-                <p class="no-post">まだ投稿がありません。</p>
-            </div>
-        @endif
-        
+                    @endforeach
+                </div>
+            @else
+                <div id="postList">
+                    <p class="no-post">まだ投稿がありません。</p>
+                </div>
+            @endif
 
-        {{-- 保存済み一覧 --}}
-        @if ($savedPosts->isNotEmpty())
-    <div class="post-grid" id="savedList" style="display: none;">
-        @foreach ($savedPosts as $post)
-        <div class="post-card"
-        onclick="showModal(
+
+            {{-- 保存済み一覧 --}}
+            @if ($savedPosts->isNotEmpty())
+                <div class="post-grid" id="savedList" style="display: none;">
+                    @foreach ($savedPosts as $post)
+                        <div class="post-card"
+                            onclick="showModal(
             '{{ asset('storage/' . $post->image) }}',
             '{{ addslashes($post->content) }}',
             '{{ $post->genre->name ?? 'ジャンルなし' }}'
         )">
-                <div class="image-box">
-                    <img src="{{ asset('storage/' . $post->image) }}" alt="保存済み画像">
+                            <div class="image-box">
+                                <img src="{{ asset('storage/' . $post->image) }}" alt="保存済み画像">
+                            </div>
+                            <div class="content-box">
+                                <p class="content-text">{{ $post->content }}</p>
+                                <p class="genre-tag">#{{ $post->genre->name ?? 'ジャンルなし' }}</p>
+                            </div>
+                            <form method="POST" action="{{ route('post.unsave', $post->id) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="unsave-btn"
+                                    onclick="event.stopPropagation();">保存解除</button>
+                            </form>
+                        </div>
+                    @endforeach
                 </div>
-                <div class="content-box">
-                    <p class="content-text">{{ $post->content }}</p>
-                    <p class="genre-tag">#{{ $post->genre->name ?? 'ジャンルなし' }}</p>
+            @else
+                <div id="savedList" style="display: none;">
+                    <p class="no-post">まだ保存された投稿がありません。</p>
                 </div>
-            </div>
-        @endforeach
-    </div>
-@else
-    <div id="savedList" style="display: none;">
-        <p class="no-post">まだ保存された投稿がありません。</p>
-    </div>
-@endif
+            @endif
 
 
         </div>
@@ -165,14 +171,14 @@
     </script>
 
     <!-- 投稿詳細モーダル -->
-<div id="postModal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <span class="modal-close" onclick="closeModal()">&times;</span>
-        <img id="modalImage" src="" alt="詳細画像">
-        <p id="modalContent" class="modal-text"></p>
-        <p id="modalGenre" class="modal-genre"></p>
+    <div id="postModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <img id="modalImage" src="" alt="詳細画像">
+            <p id="modalContent" class="modal-text"></p>
+            <p id="modalGenre" class="modal-genre"></p>
+        </div>
     </div>
-</div>
 
 </body>
 
@@ -212,14 +218,13 @@
     }
 
     // 背景クリックで閉じる処理
-    window.addEventListener('click', function (event) {
+    window.addEventListener('click', function(event) {
         const modal = document.getElementById('postModal');
         const modalContent = document.querySelector('.modal-content');
         if (event.target === modal) {
             closeModal();
         }
     });
-
 </script>
 
 </html>

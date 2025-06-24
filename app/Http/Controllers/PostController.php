@@ -12,7 +12,7 @@ use App\Models\SeenPost;
 
 // @@ -29,38 +28,21 @@ public function index()
 
-    // 🔹 投稿保存
+// 🔹 投稿保存
 //以下、川上が書き込ました
 use App\Models\Post; // ← Postモデルを使うなら必要
 use App\Models\Genre;
@@ -80,6 +80,14 @@ class PostController extends Controller
         return redirect()->route('mypage.my_journal')->with('success', '投稿が完了しました！');
     }
 
+
+
+    public function unsave($id)
+    {
+        $userId = auth()->id();
+        SeenPost::where('user_id', $userId)->where('post_id', $id)->delete();
+        return redirect()->back()->with('success', '保存解除しました');
+    }
 
     //editメソッド
     public function edit(Post $post)

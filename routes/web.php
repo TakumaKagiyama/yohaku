@@ -293,6 +293,9 @@ Route::get('/mypage/profile/edit-view', function () {
     return view('mypage.profile_edit');
 })->name('profile.edit.view');
 
+
+Route::delete('/post/{id}/unsave', [PostController::class, 'unsave'])->name('post.unsave');
+
 // // 認証不要でアクセス可能な管理者投稿ページ
 // Route::get('/admin/create', function () {
 //     return view('auth.admin_create');
