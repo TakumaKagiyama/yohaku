@@ -12,6 +12,7 @@
         <div class="post-container">
             @if ($post)
                 <div class="image-wrapper">
+
                     <img src="{{ asset('storage/' . $post->image) }}" alt="投稿画像" class="post-image">
                 </div>
                 <div class="text-wrapper">
@@ -36,7 +37,8 @@
                     <button id="left" class="controller-btn">SAVE</button>
                 </form>
 
-                <form method="GET" action="{{ route('post.index') }}">
+                <form method="GET" action="{{ $post->genre ? route('post.genre', ['genre_id' => $post->genre->id]) : route('post.index') }}">
+                    <input type="hidden" name="current" value="{{ $post->id ?? '' }}">
                     <button id="right" class="controller-btn">NEXT</button>
                     {{-- <a href="{{ route('post.edit', ['post' => $post->id ?? 0]) }}"> --}}
                     {{-- <button id="right" class="controller-btn">NEXT</button> --}}
@@ -58,13 +60,21 @@
         <div class="genre-menu" id="genre-menu">
             <ul>
                 @foreach ($genres as $genre)
-                    <li class="genre-item">{{ $genre }}</li>
+                    <li class="genre-item">
+                        <a href="{{ route('post.genre', ['genre_id' => $genre->id]) }}">{{ $genre->name }}</a>
+                    </li>
+
                 @endforeach
             </ul>
         </div>
     </div>
-
-
+    <div class="genre-slider">
+    <div class="genre-track">
+        @foreach ($genres as $genre)
+            <div class="genre-item" data-id="{{ $genre->id }}">{{ $genre->name }}</div>
+        @endforeach
+    </div>
+</div>
 
 
     <script src="{{ asset('js/post.js') }}"></script>
