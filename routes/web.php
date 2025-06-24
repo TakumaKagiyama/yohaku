@@ -24,9 +24,9 @@ use App\Models\Genre;
 |--------------------------------------------------------------------------
 */
 // TinderページのMyPageを表示するルート
-Route::get('/mypage/journal', function () {
-    return view('mypage.my_journal');
-});
+// Route::get('/mypage/journal', function () {
+//     return view('mypage.my_journal');
+// });
 
 // 登録画面の表示と登録処理の実行
 Route::get('/register', [RegisterController::class, 'show'])->name('register');
