@@ -5,6 +5,7 @@ body, html {
     font-family: 'Arial', sans-serif;
 }
 
+/* 背景 */
 .register-background {
     background-image: url('/images/bg.jpg'); /* ← 好きな画像を public/images に入れて指定 */
     background-size: cover;
@@ -15,52 +16,75 @@ body, html {
     align-items: center;
 }
 
+/* 登録フォーム全体の箱 */
 .register-box {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.85); /* ← login.cssと統一 */
     padding: 40px;
-    border-radius: 15px;
-    text-align: left;
-    width: 320px;
-    backdrop-filter: blur(10px);
-}
-
-.register-box h2 {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2); /* ← login.cssと統一 */
     text-align: center;
-    margin-bottom: 25px;
-    color: #fff6cc;
-    font-weight: normal;
-    letter-spacing: 1px;
+    width: 300px;
 }
 
-.register-box input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: none;
-    border-radius: 20px;
-    background-color: rgba(255,255,255,0.8);
-    font-size: 14px;
+/* タイトル */
+.register-box h2 {
+    margin-bottom: 20px;
+    color: #333;
 }
 
+/* input＋buttonの共通スタイル */
+.register-box input,
 .register-box button {
     width: 100%;
-    padding: 12px;
-    font-size: 14px;
-    background-color: rgba(200, 200, 200, 0.6);
-    color: black;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    box-sizing: border-box;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background 0.3s ease;
+    border-radius: 6px;
 }
 
-.register-box button:hover {
-    background-color: rgba(100, 100, 100, 0.6);
+/* ボタン専用 */
+.register-box button {
+    background-color: #333;
     color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
+/* ボタンホバー */
+.register-box button:hover {
+    background-color: #555;
+}
+
+/* エラーメッセージ */
 .error {
     color: red;
-    font-size: 12px;
+    font-size: 14px;
     margin-bottom: 10px;
+}
+
+/* ログインに戻るリンク（右上） */
+.login-link {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.login-link a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.login-link a:hover {
+    background-color: #555;
 }
