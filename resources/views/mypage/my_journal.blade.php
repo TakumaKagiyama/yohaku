@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ← これが重要！ -->
     <title>マイジャーナル</title>
     <link rel="stylesheet" href="{{ asset('css/my_journal.css') }}">
 </head>
@@ -163,6 +164,16 @@
         }
     </script>
 
+    <!-- 投稿詳細モーダル -->
+<div id="postModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <img id="modalImage" src="" alt="詳細画像">
+        <p id="modalContent" class="modal-text"></p>
+        <p id="modalGenre" class="modal-genre"></p>
+    </div>
+</div>
+
 </body>
 
 <script>
@@ -193,7 +204,6 @@
         document.getElementById('modalImage').src = imageSrc;
         document.getElementById('modalContent').innerText = content;
         document.getElementById('modalGenre').innerText = genre ? '#' + genre : '#ジャンルなし';
-
         document.getElementById('postModal').style.display = 'flex';
     }
 
@@ -201,16 +211,15 @@
         document.getElementById('postModal').style.display = 'none';
     }
 
-</script>
+    // 背景クリックで閉じる処理
+    window.addEventListener('click', function (event) {
+        const modal = document.getElementById('postModal');
+        const modalContent = document.querySelector('.modal-content');
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
 
-<!-- 投稿詳細モーダル -->
-<div id="postModal" class="modal-overlay" style="display: none;">
-    <div class="modal-content">
-        <span class="modal-close" onclick="closeModal()">&times;</span>
-        <img id="modalImage" src="" alt="詳細画像">
-        <p id="modalContent" class="modal-text"></p>
-        <p id="modalGenre" class="modal-genre"></p>
-    </div>
-</div>
+</script>
 
 </html>
