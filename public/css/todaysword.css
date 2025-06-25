@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: "Arial", sans-serif;
-    background: url("/images/evening.png") no-repeat center center fixed;
+    /* background: url("/images/evening.png") no-repeat center center fixed; */
     background-size: cover;
     height: 100vh;
     display: flex;
@@ -159,4 +159,17 @@ body {
 
 .btn:hover {
     background-color: #b8afa8;
+}
+
+/* 背景画像を時間帯で切り替える */
+.background.morning {
+    background: url("/images/morning.png") no-repeat center center / cover;
+}
+
+.background.afternoon {
+    background: url("/images/evening.png") no-repeat center center / cover;
+}
+
+.background.night {
+    background: url("/images/night.png") no-repeat center center / cover;
 }
