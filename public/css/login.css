@@ -6,7 +6,7 @@ body, html {
 }
 
 .login-background {
-    background-image: url('/images/bg.jpg'); /* 背景画像を設定 */
+    /* background-image: url('/images/bg.jpg'); 背景画像を設定 */
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -75,4 +75,17 @@ body, html {
 
 .register-link a:hover {
     background-color: #555;
+}
+
+/* 背景画像を時間帯で切り替える */
+.background.morning {
+    background: url("/images/morning.png") no-repeat center center / cover;
+}
+
+.background.afternoon {
+    background: url("/images/evening.png") no-repeat center center / cover;
+}
+
+.background.night {
+    background: url("/images/night.png") no-repeat center center / cover;
 }

@@ -10,9 +10,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-
-
-
+// use Illuminate\Support\Carbon;
+// use App\Models\SeenPost;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 
 // @@ -29,38 +28,21 @@ public function index()
 
@@ -44,10 +45,17 @@ class PostController extends Controller
     // 投稿作成画面表示
     public function create()
     {
-        $genres = Genre::all(); // ← genresテーブルから全部取得
-        return view('posts.create', compact('genres')); // ← create.bladeに渡す
-    }
+        $genres = Genre::all(); // ← ジャンルを取得
+        $theme = \App\Models\Theme::latest()->first(); // ← 今日のことば取得
 
+        // 🔽 ここが投稿済みかどうかのチェック
+        $alreadyPostedToday = \App\Models\Post::where('user_id', \Auth::id())
+            ->whereDate('created_at', \Carbon\Carbon::today())
+            ->exists();
+
+        // ビューに渡す
+        return view('posts.create', compact('genres', 'theme', 'alreadyPostedToday'));
+    }
 
     // 🔹 投稿保存
     public function store(Request $request)
