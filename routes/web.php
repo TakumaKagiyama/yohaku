@@ -44,9 +44,10 @@ Route::get('/admin/create', function () {
 Route::get('/welcome', function () {
     $latestTheme = \App\Models\Theme::latest()->first(); // ← 追加
     return view('welcome', ['theme' => $latestTheme]);    // ← 修正
+    return view('posts.create', compact('genres', 'theme'));
 })->middleware('auth')->name('welcome'); // ログインしていないとアクセス不可
 
-// プロフィール編集ページと更新処理
+// プロフィール編集ページと更新処理a
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
@@ -206,12 +207,24 @@ Route::get('/admin/create', function () {
 })->name('admin.create');
 
 // 🔹【8】投稿作成画面（posts/create.blade.php）
+// Route::get('/post/create', function () {
+//     $genres = Genre::all();
+//     $theme = Theme::latest()->first();
+//     return view('posts.create', compact('genres', 'theme'));
+// })->name('post.create'); 
+// Route::post('/post', [PostController::class, 'store'])->middleware('auth')->name('post.store');
 Route::get('/post/create', function () {
-    $genres = Genre::all(); // ← DBからジャンル一覧を取得
-    return view('posts.create', compact('genres')); // ← Bladeに渡す
-})->name('post.create');
-Route::post('/post', [PostController::class, 'store'])->middleware('auth')->name('post.store');
-
+    $genres = Genre::all();
+    $theme = Theme::latest()->first();
+    // 今日すでに投稿したかどうかを判定
+    $alreadyPostedToday = false;
+    if (Auth::check()) {
+        $alreadyPostedToday = Post::where('user_id', Auth::id())
+            ->whereDate('created_at', now()->toDateString())
+            ->exists();
+    }
+    return view('posts.create', compact('genres', 'theme', 'alreadyPostedToday'));
+})->middleware('auth')->name('post.create');
 
 
 //🔹【9】は内容がかぶってたので削除しました！
