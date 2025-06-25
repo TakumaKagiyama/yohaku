@@ -226,3 +226,9 @@ html {
 .genre-item:hover {
     transform: scale(1.1);
 }
+
+    .genre-menu ul li a,
+    .genre-menu ul li a:visited {
+    color: white !important;
+    text-decoration: none !important;
+    }

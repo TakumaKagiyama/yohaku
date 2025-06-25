@@ -61,7 +61,7 @@ class PostController extends Controller
         $theme = \App\Models\Theme::latest()->first(); // ← 今日のことば取得
 
         // 🔽 ここが投稿済みかどうかのチェック
-        $alreadyPostedToday = \App\Models\Post::where('user_id', \Auth::id())
+        $alreadyPostedToday = \App\Models\Post::where('user_id', Auth::id())
             ->whereDate('created_at', \Carbon\Carbon::today())
             ->exists();
 
