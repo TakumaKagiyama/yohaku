@@ -301,6 +301,7 @@ Route::get('/mypage/mode', function () {
 Route::get('/mypage/profile_edit', function () {
     return view('mypage.profile_edit');
 })->name('mypage.profile_edit');
+Route::delete('/post/{id}/unsave', [PostController::class, 'unsave'])->name('post.unsave');
 
 // 🔹【16】プロフィール情報更新（PUT）
 Route::put('/mypage/profile/update', [ProfileController::class, 'update'])->name('profile.update');

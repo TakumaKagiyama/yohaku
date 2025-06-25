@@ -23,7 +23,6 @@
         <div class="post-container">
             @if ($post)
                 <div class="image-wrapper">
-
                     <img src="{{ asset('storage/' . $post->image) }}" alt="投稿画像" class="post-image">
                 </div>
                 <div class="text-wrapper">
@@ -37,6 +36,7 @@
             @endif
         </div>
 
+        {{-- 🔻 投稿の有無に関わらず常に表示されるコントローラー --}}
         <div class="controller-grid">
             <a href="/mypage/my_journal">
                 <button id="up" class="controller-btn">MYPAGE</button>
@@ -48,12 +48,13 @@
                     <button id="left" class="controller-btn">SAVE</button>
                 </form>
 
-                <form method="GET" action="{{ $post->genre ? route('post.genre', ['genre_id' => $post->genre->id]) : route('post.index') }}">
+                <form method="GET" action="{{ route('post.index') }}">
                     <input type="hidden" name="current" value="{{ $post->id ?? '' }}">
                     <button id="right" class="controller-btn">NEXT</button>
-                    {{-- <a href="{{ route('post.edit', ['post' => $post->id ?? 0]) }}"> --}}
-                    {{-- <button id="right" class="controller-btn">NEXT</button> --}}
                 </form>
+
+
+
             </div>
 
             <a href="{{ route('post.edit', ['post' => $post->id ?? 0]) }}">
@@ -61,7 +62,7 @@
             </a>
         </div>
 
-
+        {{-- ハンバーガーメニュー --}}
         <div class="hamburger-menu" id="menu-toggle">
             <div></div>
             <div></div>
@@ -75,14 +76,16 @@
                         <a href="{{ route('post.genre', ['genre_id' => $genre->id]) }}">{{ $genre->name }}</a>
                     </li>
 
+                @endforeach
+            </ul>
+
                     @endforeach
                 </ul>
             </div>
             <style>
     </style>
+
         </div>
-
-
 
     <script src="{{ asset('js/post.js') }}"></script>
 
