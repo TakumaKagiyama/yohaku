@@ -68,13 +68,7 @@
             </ul>
         </div>
     </div>
-    <div class="genre-slider">
-    <div class="genre-track">
-        @foreach ($genres as $genre)
-            <div class="genre-item" data-id="{{ $genre->id }}">{{ $genre->name }}</div>
-        @endforeach
-    </div>
-</div>
+
 
 
     <script src="{{ asset('js/post.js') }}"></script>
