@@ -9,7 +9,12 @@ html {
 }
 
 .background {
-    background: url("/images/bg.jpg") no-repeat center center / cover;
+
+    /* background: url("/images/bg.jpg") no-repeat center center / cover; */
+    height: 100vh;
+    width: 100vw;
+
+    /* background: url("/images/bg.jpg") no-repeat center center / cover; */
     width: 100%;
     height: 100%;
     position: relative;
@@ -113,7 +118,7 @@ html {
     top: 10%;
     right: 2%;
     background: rgba(0, 0, 0, 0.6);
-    padding: 2vw;
+    padding: 1.5vw;
     border-radius: 1vw;
 }
 
@@ -125,10 +130,11 @@ html {
 
 .genre-menu li {
     color: white;
-    margin: 1vw 0;
+    margin: 0.5vw 0;
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 1.2vw;
+    text-align: center;
 }
 
 .genre-menu li:hover {
@@ -154,9 +160,22 @@ html {
     padding: 0 2vw;
 }
 
+/* 背景画像を時間帯で切り替える */
+.background.morning {
+    background: url("/images/morning.png") no-repeat center center / cover;
+}
+
+.background.afternoon {
+    background: url("/images/evening.png") no-repeat center center / cover;
+}
+
+.background.night {
+    background: url("/images/night.png") no-repeat center center / cover;
+}
+
 .genre-item {
     background-color: rgba(255, 255, 255, 0.2);
-    padding: 0.8vw 1.6vw;
+    padding: 0.5vw 1.2vw;
     border-radius: 1.5vw;
     font-weight: bold;
     font-size: 1vw;

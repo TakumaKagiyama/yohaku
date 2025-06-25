@@ -411,15 +411,16 @@ body, html {
 }
 
 .content-box {
-    height: 80px; /* ← 高さを調整 */
+    height: auto;
     padding: 8px 12px;
     position: relative;
     background: rgba(0, 0, 0, 0.05);
     text-align: center;
 
-    display: flex;             /* 中央寄せのために追加 */
-    flex-direction: column;   /* 縦方向に */
-    justify-content: center;  /* 縦中央に配置 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 
@@ -441,9 +442,9 @@ body, html {
 }
 
 .genre-tag {
-    position: absolute;
-    bottom: 10px;
-    right: 12px;
+    /* position: absolute; */
+    /* bottom: 10px;*/
+    margin-top: 4px;         /* ← 上との間隔 */
     font-size: 0.85rem;
     color: #555;
 }
