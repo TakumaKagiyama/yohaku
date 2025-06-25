@@ -50,12 +50,14 @@
             </a>
         </div>
 
-
+    <input type="checkbox" id="menu-switch" hidden>
+    <label for="menu-switch">
         <div class="hamburger-menu" id="menu-toggle">
-            <div></div>
-            <div></div>
-            <div></div>
+            <div class="bar top-bar"></div>
+            <div class="bar middle-bar"></div>
+            <div class="bar bottom-bar"></div>
         </div>
+        </label>
 
         <div class="genre-menu" id="genre-menu">
             <ul>
