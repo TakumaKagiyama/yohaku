@@ -75,10 +75,12 @@
                         <a href="{{ route('post.genre', ['genre_id' => $genre->id]) }}">{{ $genre->name }}</a>
                     </li>
 
-                @endforeach
-            </ul>
+                    @endforeach
+                </ul>
+            </div>
+            <style>
+    </style>
         </div>
-    </div>
 
 
 
