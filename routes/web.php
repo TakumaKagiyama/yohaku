@@ -71,6 +71,13 @@ Route::post('/admin/post', function (\Illuminate\Http\Request $request) {
     return redirect()->route('welcome')->with('message', '投稿されました');
 })->name('admin.post');
 
+// 投稿のジャンルフィルター機能
+Route::get('/post/genre/{genre_id}', [PostController::class, 'filterByGenre'])->name('post.genre');
+
+// ジャンル別に投稿を表示するルート
+// Route::get('/post/genre/{genre}', [PostController::class, 'showByGenre'])->name('post.byGenre');
+
+
 // 消しても良いかも！！！！！！
 // Route::post('/admin/post', function (Request $req) {
 //     Theme::create(['text' => $req->theme]);

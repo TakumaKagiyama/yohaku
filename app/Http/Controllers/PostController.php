@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Carbon;
+use App\Models\SeenPost;
+use Illuminate\Support\Facades\Log;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Carbon;
 use App\Models\SeenPost;
 use Illuminate\Support\Facades\Validator;
@@ -32,7 +37,7 @@ class PostController extends Controller
         $post = Post::whereNotIn('id', $seenPostIds)->inRandomOrder()->first();
 
         // ジャンル一覧を取得（必要ならビューで使える）
-        $genres = Genre::pluck('name')->toArray();
+        $genres = Genre::all(); // ← id も name も含まれるオブジェクトの配列
 
         return view('posts.index', compact('post', 'genres'));
     }
@@ -122,4 +127,23 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('mypage.my_journal')->with('success', '投稿を削除しました');
     }
+
+//
+    public function filterByGenre(Request $request, $genre_id)
+    {
+        $currentPostId = $request->input('current');
+
+        $query = Post::where('genre_id', $genre_id)->orderBy('id');
+
+        if ($currentPostId) {
+            $post = $query->where('id', '>', $currentPostId)->first();
+        } else {
+            $post = $query->first();
+        }
+
+        $genres = Genre::all();
+
+        return view('posts.index', compact('post', 'genres'));
+    }
+
 }

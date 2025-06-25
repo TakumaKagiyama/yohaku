@@ -15,4 +15,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
         }
     });
+
+     // 🔹 ジャンルクリック時の処理を追加
+    const genreItems = document.querySelectorAll('.genre-item');
+    console.log("ジャンルアイテムの数:", genreItems.length); // ← 追加
+
+    genreItems.forEach(item => {
+        item.addEventListener('click', function () {
+            const genreId = this.dataset.id;
+            console.log("クリックされたジャンルID:", genreId); // ← 追加
+            if (genreId) {
+                window.location.href = `/post/genre/${genreId}`;
+            }
+        });
+    });
 });
