@@ -26,29 +26,29 @@ class PostController extends Controller
 {
     // 🔹 投稿表示
     public function index(Request $request)
-{
-    $userId = Auth::id();
-    $seenPostIds = SeenPost::where('user_id', $userId)->pluck('post_id')->toArray();
+    {
+        $userId = Auth::id();
+        $seenPostIds = SeenPost::where('user_id', $userId)->pluck('post_id')->toArray();
 
-    if ($request->has('current')) {
-        $currentPostId = $request->input('current');
+        if ($request->has('current')) {
+            $currentPostId = $request->input('current');
 
-        if ($currentPostId && Post::find($currentPostId)) {
-            if (!in_array($currentPostId, $seenPostIds)) {
-                SeenPost::create([
-                    'user_id' => $userId,
-                    'post_id' => $currentPostId,
-                ]);
-                $seenPostIds[] = $currentPostId;
+            if ($currentPostId && Post::find($currentPostId)) {
+                if (!in_array($currentPostId, $seenPostIds)) {
+                    SeenPost::create([
+                        'user_id' => $userId,
+                        'post_id' => $currentPostId,
+                    ]);
+                    $seenPostIds[] = $currentPostId;
+                }
             }
         }
+
+        $post = Post::whereNotIn('id', $seenPostIds)->inRandomOrder()->first();
+        $genres = Genre::all();
+
+        return view('posts.index', compact('post', 'genres'));
     }
-
-    $post = Post::whereNotIn('id', $seenPostIds)->inRandomOrder()->first();
-    $genres = Genre::all();
-
-    return view('posts.index', compact('post', 'genres'));
-}
 
 
 
@@ -95,7 +95,12 @@ class PostController extends Controller
 
         return redirect()->route('mypage.my_journal')->with('success', '投稿が完了しました！');
     }
-
+    public function unsave($id)
+    {
+        $userId = auth()->id();
+        SeenPost::where('user_id', $userId)->where('post_id', $id)->delete();
+        return redirect()->back()->with('success', '保存解除しました');
+    }
 
     //editメソッド
     public function edit(Post $post)
