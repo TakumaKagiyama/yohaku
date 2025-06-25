@@ -44,9 +44,20 @@
 
             <div class="middle-row">
                 <form method="POST" action="{{ route('post.save', ['id' => $post->id ?? 0]) }}">
+                {{-- <form method="POST" action="{{ route('post.save', ['id' => $post->id ?? 0]) }}">
                     @csrf
                     <button id="left" class="controller-btn">SAVE</button>
+                </form> --}}
+                @if ($post)
+                <form method="POST" action="{{ route('post.save', ['id' => $post->id]) }}">
+                @csrf
+                <button id="left" class="controller-btn">SAVE</button>
                 </form>
+                @else
+                <button id="left" class="controller-btn" disabled style="opacity: 0.5; cursor: not-allowed;">
+                SAVE
+                </button>
+                @endif
 
                 <form method="GET" action="{{ route('post.index') }}">
                     <input type="hidden" name="current" value="{{ $post->id ?? '' }}">
@@ -58,9 +69,18 @@
             </div>
 
             <a href="{{ route('post.edit', ['post' => $post->id ?? 0]) }}">
+            @if ($post)
+                <a href="{{ route('post.edit', ['post' => $post->id]) }}">
                 <button id="down" class="controller-btn">EDIT</button>
             </a>
         </div>
+                </a>
+                @else
+                <button id="down" class="controller-btn" disabled style="opacity: 0.5; cursor: not-allowed;">
+                EDIT
+                </button>
+                @endif
+            </div>
 
         {{-- ハンバーガーメニュー --}}
         <div class="hamburger-menu" id="menu-toggle">
@@ -110,6 +130,17 @@
             else {
                 body.classList.add('background', 'night');
             }
+        });
+    </script>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+        const saveButton = document.getElementById('left');
+        if (saveButton && saveButton.disabled) {
+        saveButton.addEventListener('click', function (e) {
+            e.preventDefault(); // 念のため送信させない
+        });
+        }
         });
     </script>
 
