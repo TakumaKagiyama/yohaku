@@ -79,8 +79,8 @@
                 @endforeach
             </ul>
 
-                    @endforeach
-                </ul>
+
+                
             </div>
             <style>
     </style>
@@ -94,10 +94,10 @@
         window.addEventListener('DOMContentLoaded', function () {
             // 現在の時間（0〜23）を取得（0は深夜0時、13は午後1時など）
             const hour = new Date().getHours();
-    
+
             // bodyタグを取得（背景を変えるために）
             const body = document.body;
-    
+
             // 朝（5時〜11時）
             if (hour >= 5 && hour < 12) {
                 body.classList.add('background', 'morning');
