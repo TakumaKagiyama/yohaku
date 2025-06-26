@@ -37,7 +37,7 @@
                 <div class="form-group">
                     <label for="admin_code">admin pass</label>
                     <!--<input type="text" name="admin_code" placeholder="admin pass" required>-->
-                    <input type="text" name="admin_code" id="admin_code" class="form-control">
+                    <input type="text" name="admin_code" id="admin_code" class="form-control" placeholder="Admin Pass (Admin Only)">
                 </div>
                 <button type="submit">LOGIN</button>
 
