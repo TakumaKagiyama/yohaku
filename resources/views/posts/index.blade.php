@@ -37,7 +37,7 @@
         </div>
 
         {{-- 🔻 投稿の有無に関わらず常に表示されるコントローラー --}}
-        <div class="controller-grid">
+        {{-- <div class="controller-grid">
             <a href="/mypage/my_journal">
                 <button id="up" class="controller-btn">MYPAGE</button>
             </a>
@@ -48,7 +48,7 @@
                     @csrf
                     <button id="left" class="controller-btn">SAVE</button>
                 </form> --}}
-                @if ($post)
+                {{-- @if ($post)
                 <form method="POST" action="{{ route('post.save', ['id' => $post->id]) }}">
                 @csrf
                 <button id="left" class="controller-btn">SAVE</button>
@@ -64,8 +64,6 @@
                     <button id="right" class="controller-btn">NEXT</button>
                 </form>
 
-
-
             </div>
 
             <a href="{{ route('post.edit', ['post' => $post->id ?? 0]) }}">
@@ -80,8 +78,52 @@
                 EDIT
                 </button>
                 @endif
-            </div>
+            </div> --}} 
 
+            <div class="controller-grid">
+
+                {{-- MYPAGE ボタン（<a> のみ使用） --}}
+                    <form method="GET" action="/mypage/my_journal">
+                        <button id="up" class="controller-btn">MYPAGE</button>
+                    </form>
+            
+                <div class="middle-row">
+                    {{-- SAVE ボタン --}}
+                    @if ($post)
+                        <form method="POST" action="{{ route('post.save', ['id' => $post->id]) }}">
+                            @csrf
+                            <button id="left" class="controller-btn">SAVE</button>
+                        </form>
+                    @else
+                        <button id="left" class="controller-btn" disabled style="opacity: 0.5; cursor: not-allowed;">
+                            SAVE
+                        </button>
+                    @endif
+            
+                    {{-- NEXT ボタン --}}
+                    @if ($post)
+                        <form method="GET" action="{{ route('post.index') }}">
+                            <input type="hidden" name="current" value="{{ $post->id }}">
+                            <button id="right" class="controller-btn">NEXT</button>
+                        </form>
+                    @else
+                        <button id="right" class="controller-btn" disabled style="opacity: 0.5; cursor: not-allowed;">
+                            NEXT
+                        </button>
+                    @endif
+                </div>
+            
+                {{-- EDIT ボタン --}}
+                @if ($post)
+                <form method="GET" action="{{ route('post.edit', ['post' => $post->id]) }}">
+                <button id="down" class="controller-btn">EDIT</button>
+                </form>
+                @else
+                <button id="down" class="controller-btn" disabled style="opacity: 0.5; cursor: not-allowed;">
+                EDIT
+                </button>
+                @endif
+            </div>            
 
     <input type="checkbox" id="menu-switch" hidden>
     <label for="menu-switch">
