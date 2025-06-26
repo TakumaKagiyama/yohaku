@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>TODAYS WORD - 編集</title>
+    <title>TODAYS WORD - Edit</title>
     <link rel="stylesheet" href="{{ asset('css/todaysword.css') }}">
 </head>
 
 <body>
     <div class="wrapper">
-        <h1 class="title">TODAYS WORD - 編集</h1>
+        <h1 class="title">TODAYS WORD - Edit</h1>
 
         <!-- ✨ 更新フォーム -->
         <form method="POST" action="{{ route('post.update', $post->id) }}" enctype="multipart/form-data" class="form">
